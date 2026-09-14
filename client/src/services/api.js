@@ -20,8 +20,7 @@ async function fetchJSON(endpoint, options = {}) {
     if (contentType.includes('application/json')) {
       data = await res.json();
     } else {
-      const text = await res.text();
-      throw new Error(`Server returned non-JSON response (${res.status})`);
+      throw new Error(`Unable to connect to API backend (${res.status}). Please ensure backend is running.`);
     }
 
     if (!res.ok) {

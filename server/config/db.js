@@ -26,9 +26,9 @@ const connectDB = async () => {
   // 3. Production-Ready Connection Configuration
   try {
     const conn = await mongoose.connect(connString, {
-      serverSelectionTimeoutMS: 5000, // 5 seconds timeout
-      maxPoolSize: 10,                 // Connection pool reuse limit
-      socketTimeoutMS: 45000           // Close sockets after 45s of inactivity
+      serverSelectionTimeoutMS: 15000, // 15 seconds timeout for Atlas DNS & TLS
+      maxPoolSize: 10,                  // Connection pool reuse limit
+      socketTimeoutMS: 45000            // Close sockets after 45s of inactivity
     });
 
     console.log(`✅ MongoDB Connected Successfully: ${conn.connection.host}`);
