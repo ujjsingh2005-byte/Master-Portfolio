@@ -14,4 +14,8 @@ router.post('/profile/resume', profileController.uploadResume);
 router.get('/profile/resume', profileController.getResume);
 router.delete('/profile/resume', profileController.deleteResume);
 
+// Certification Endpoints
+router.post('/profile/certifications', profileController.addCertification);
+router.delete('/profile/certifications/:id', profileController.deleteCertification);
+
 module.exports = router;

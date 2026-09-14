@@ -92,6 +92,21 @@ export const deleteResume = async () => {
   return res;
 };
 
+export const createCertification = async (certData) => {
+  const res = await fetchJSON('/profile/certifications', {
+    method: 'POST',
+    body: JSON.stringify(certData),
+  });
+  return res;
+};
+
+export const deleteCertification = async (id) => {
+  const res = await fetchJSON(`/profile/certifications/${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+  });
+  return res;
+};
+
 export const getSkills = async () => {
   const res = await fetchJSON('/skills');
   return res.data;

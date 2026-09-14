@@ -64,7 +64,7 @@ function AppContent() {
         <Projects />
         <Education profile={profile} />
         <Experience profile={profile} />
-        <Certifications profile={profile} />
+        <Certifications profile={profile} onProfileUpdated={loadProfile} />
         <Contact profile={profile} />
       </main>
       <Footer profile={profile} />

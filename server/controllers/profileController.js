@@ -227,3 +227,68 @@ exports.deleteResume = async (req, res, next) => {
     return errorResponse(res, 400, error.message || 'Failed to delete resume');
   }
 };
+
+// POST Add Certification
+exports.addCertification = async (req, res, next) => {
+  try {
+    const { name, organization, date, certificateUrl, icon } = req.body;
+    if (!name || !organization || !date) {
+      return errorResponse(res, 400, 'Name, Organization, and Date are required');
+    }
+
+    const newCert = {
+      name: name.trim(),
+      organization: organization.trim(),
+      date: date.trim(),
+      certificateUrl: certificateUrl ? certificateUrl.trim() : '#',
+      icon: icon || 'Award'
+    };
+
+    let profile = null;
+    if (Profile.db && Profile.db.readyState === 1) {
+      profile = await Profile.findOne();
+      if (!profile) {
+        profile = new Profile(defaultProfile);
+      }
+      profile.certifications.push(newCert);
+      profile.updatedAt = new Date();
+      await profile.save();
+    } else {
+      newCert._id = 'cert_' + Date.now();
+      defaultProfile.certifications.push(newCert);
+      profile = defaultProfile;
+    }
+
+    return successResponse(res, 201, profile.certifications, 'Certification added successfully!');
+  } catch (error) {
+    return errorResponse(res, 400, error.message || 'Failed to add certification');
+  }
+};
+
+// DELETE Certification
+exports.deleteCertification = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    let profile = null;
+    if (Profile.db && Profile.db.readyState === 1) {
+      profile = await Profile.findOne();
+      if (profile && profile.certifications) {
+        profile.certifications = profile.certifications.filter(
+          (cert) => cert._id.toString() !== id && cert.name !== id
+        );
+        profile.updatedAt = new Date();
+        await profile.save();
+      }
+    } else {
+      defaultProfile.certifications = defaultProfile.certifications.filter(
+        (cert) => cert._id !== id && cert.name !== id
+      );
+      profile = defaultProfile;
+    }
+
+    return successResponse(res, 200, profile ? profile.certifications : [], 'Certification deleted successfully');
+  } catch (error) {
+    return errorResponse(res, 400, error.message || 'Failed to delete certification');
+  }
+};

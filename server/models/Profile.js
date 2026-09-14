@@ -30,7 +30,7 @@ const CertificationSchema = new mongoose.Schema({
   date: { type: String, required: true },
   certificateUrl: { type: String, default: '#' },
   icon: { type: String, default: 'Award' }
-}, { _id: false });
+});
 
 const ProfileSchema = new mongoose.Schema(
   {
