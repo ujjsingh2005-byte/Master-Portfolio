@@ -14,7 +14,16 @@ async function fetchJSON(endpoint, options = {}) {
       ...options,
     });
 
-    const data = await res.json();
+    const contentType = res.headers.get('content-type') || '';
+    let data;
+
+    if (contentType.includes('application/json')) {
+      data = await res.json();
+    } else {
+      const text = await res.text();
+      throw new Error(`Server returned non-JSON response (${res.status})`);
+    }
+
     if (!res.ok) {
       const errorMessage = data?.message || `HTTP Error ${res.status}`;
       const err = new Error(errorMessage);
@@ -26,6 +35,9 @@ async function fetchJSON(endpoint, options = {}) {
     return data;
   } catch (error) {
     console.error(`API Error on [${endpoint}]:`, error);
+    if (error instanceof SyntaxError) {
+      throw new Error('Server connection error. Please ensure the backend server is running.');
+    }
     throw error;
   }
 }
