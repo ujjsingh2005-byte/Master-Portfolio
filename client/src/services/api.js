@@ -2,7 +2,10 @@
  * Central API Client for PortfolioPro
  */
 
-const API_BASE = '/api';
+const API_BASE = import.meta.env.VITE_API_URL || 
+  (import.meta.env.PROD 
+    ? 'https://master-portfolio-66a7.onrender.com/api' 
+    : '/api');
 
 async function fetchJSON(endpoint, options = {}) {
   try {
