@@ -33,12 +33,18 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 // Apply General Rate Limiting to all /api routes
 app.use('/api', apiLimiter);
 
-// API Endpoint Declarations
+// API Endpoint Declarations (Supports both /api prefix and root level routes)
 app.use('/api', healthRoutes);
 app.use('/api', profileRoutes);
 app.use('/api', skillRoutes);
 app.use('/api', projectRoutes);
 app.use('/api', contactRoutes);
+
+app.use('/', healthRoutes);
+app.use('/', profileRoutes);
+app.use('/', skillRoutes);
+app.use('/', projectRoutes);
+app.use('/', contactRoutes);
 
 // Root Welcome Endpoint
 app.get('/', (req, res) => {
