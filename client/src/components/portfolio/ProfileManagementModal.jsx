@@ -4,8 +4,8 @@ import { uploadProfilePhoto, deleteProfilePhoto, uploadResume, deleteResume, upd
 
 const defaultAvatarPlaceholder = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600';
 
-const ProfileManagementModal = ({ isOpen, onClose, profile, onProfileUpdated }) => {
-  const [activeTab, setActiveTab] = useState('photo'); // 'photo' | 'resume' | 'info'
+const ProfileManagementModal = ({ isOpen, onClose, profile, onProfileUpdated, initialTab = 'photo' }) => {
+  const [activeTab, setActiveTab] = useState(initialTab || 'photo'); // 'photo' | 'resume' | 'info'
   
   // Photo State
   const [photoPreview, setPhotoPreview] = useState('');
@@ -30,19 +30,22 @@ const ProfileManagementModal = ({ isOpen, onClose, profile, onProfileUpdated }) 
   const [infoMessage, setInfoMessage] = useState({ type: '', text: '' });
 
   useEffect(() => {
-    if (profile) {
-      setPhotoPreview(profile.profileImage || '');
-      setResumeUrl(profile.resumeUrl || '');
-      setResumeFileName(profile.resumeFileName || '');
-      setInfoData({
-        name: profile.name || 'Ujjwal Singh',
-        title: profile.title || 'Full-Stack Software Engineer',
-        educationDegree: profile.educationDegree || 'B.Tech Computer Science Engineering',
-        tagline: profile.tagline || 'Building scalable web applications & seamless user experiences.',
-        bio: profile.bio || 'Full-Stack Developer and B.Tech CSE student passionate about building modern, scalable, high-performance web applications with beautiful user experiences.'
-      });
+    if (isOpen) {
+      if (initialTab) setActiveTab(initialTab);
+      if (profile) {
+        setPhotoPreview(profile.profileImage || '');
+        setResumeUrl(profile.resumeUrl || '');
+        setResumeFileName(profile.resumeFileName || '');
+        setInfoData({
+          name: profile.name || 'Ujjwal Singh',
+          title: profile.title || 'Full-Stack Software Engineer',
+          educationDegree: profile.educationDegree || 'B.Tech Computer Science Engineering',
+          tagline: profile.tagline || 'Building scalable web applications & seamless user experiences.',
+          bio: profile.bio || 'Full-Stack Developer and B.Tech CSE student passionate about building modern, scalable, high-performance web applications with beautiful user experiences.'
+        });
+      }
     }
-  }, [profile, isOpen]);
+  }, [profile, isOpen, initialTab]);
 
   if (!isOpen) return null;
 

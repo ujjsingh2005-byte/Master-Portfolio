@@ -1,7 +1,5 @@
 import React from 'react';
-import { ArrowRight, Download, Mail, Github, Linkedin, Twitter, Sparkles, GraduationCap, Eye, FileText } from 'lucide-react';
-
-const defaultAvatarPlaceholder = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600';
+import { ArrowRight, Download, Mail, Github, Linkedin, Twitter, Sparkles, GraduationCap, Eye, FileText, Camera, Upload, UserPlus } from 'lucide-react';
 
 const Hero = ({ profile, onOpenSettings }) => {
   const name = profile?.name || 'Ujjwal Singh';
@@ -9,7 +7,7 @@ const Hero = ({ profile, onOpenSettings }) => {
   const educationDegree = profile?.educationDegree || 'B.Tech Computer Science Engineering';
   const tagline = profile?.tagline || 'Building scalable web applications & seamless user experiences.';
   const bio = profile?.bio || 'Full-Stack Developer and B.Tech CSE student passionate about building modern, scalable, high-performance web applications with beautiful user experiences.';
-  const profileImage = profile?.profileImage || defaultAvatarPlaceholder;
+  const profileImage = profile?.profileImage || '';
   const resumeUrl = profile?.resumeUrl || '';
   const resumeFileName = profile?.resumeFileName || 'Ujjwal_Singh_Resume.pdf';
   const social = profile?.socialLinks || {};
@@ -138,7 +136,7 @@ const Hero = ({ profile, onOpenSettings }) => {
           </div>
         </div>
 
-        {/* Right Column: Profile Image Card */}
+        {/* Right Column: Profile Image / Upload Space Card */}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div
             style={{
@@ -159,19 +157,110 @@ const Hero = ({ profile, onOpenSettings }) => {
                 borderRadius: 'calc(var(--radius-lg) - 6px)',
                 overflow: 'hidden',
                 backgroundColor: 'var(--bg-secondary)',
-                position: 'relative'
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
               }}
             >
-              <img
-                src={profileImage}
-                alt={name}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  display: 'block'
-                }}
-              />
+              {profileImage ? (
+                <>
+                  <img
+                    src={profileImage}
+                    alt={name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block'
+                    }}
+                  />
+                  <button
+                    onClick={() => onOpenSettings && onOpenSettings('photo')}
+                    aria-label="Change Profile Photo"
+                    title="Change Profile Photo"
+                    style={{
+                      position: 'absolute',
+                      bottom: '12px',
+                      right: '12px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.4rem',
+                      padding: '0.5rem 0.9rem',
+                      borderRadius: 'var(--radius-full)',
+                      backgroundColor: 'rgba(15, 23, 42, 0.85)',
+                      border: '1px solid var(--border-active)',
+                      color: '#ffffff',
+                      fontSize: '0.825rem',
+                      fontWeight: '600',
+                      backdropFilter: 'blur(8px)',
+                      cursor: 'pointer',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                      transition: 'transform var(--transition-fast)'
+                    }}
+                  >
+                    <Camera size={16} /> Edit Photo
+                  </button>
+                </>
+              ) : (
+                <div
+                  onClick={() => onOpenSettings && onOpenSettings('photo')}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '2rem',
+                    textAlign: 'center',
+                    cursor: 'pointer',
+                    background: 'radial-gradient(circle at center, rgba(99, 102, 241, 0.15) 0%, transparent 70%)',
+                    border: '2px dashed var(--border-active)',
+                    borderRadius: 'calc(var(--radius-lg) - 6px)',
+                    transition: 'all var(--transition-normal)'
+                  }}
+                  className="photo-upload-space"
+                >
+                  <div
+                    style={{
+                      width: '72px',
+                      height: '72px',
+                      borderRadius: '50%',
+                      backgroundColor: 'rgba(99, 102, 241, 0.12)',
+                      border: '1px solid var(--border-active)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'var(--accent-primary)',
+                      marginBottom: '1rem'
+                    }}
+                  >
+                    <Upload size={32} />
+                  </div>
+                  <h3 style={{ fontSize: '1.15rem', fontWeight: '700', marginBottom: '0.35rem', color: 'var(--text-primary)' }}>
+                    Upload Profile Photo
+                  </h3>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1rem', maxWidth: '240px' }}>
+                    Click here to add your profile picture (JPG, PNG, WEBP)
+                  </p>
+                  <span
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.4rem',
+                      padding: '0.45rem 1rem',
+                      borderRadius: 'var(--radius-full)',
+                      backgroundColor: 'var(--accent-primary)',
+                      color: '#ffffff',
+                      fontSize: '0.825rem',
+                      fontWeight: '600'
+                    }}
+                  >
+                    <Camera size={15} /> Select Image
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -17,9 +17,15 @@ function AppContent() {
   const [profile, setProfile] = useState(null);
   const [skills, setSkills] = useState([]);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [settingsTab, setSettingsTab] = useState('photo');
   
   const [skillsLoading, setSkillsLoading] = useState(true);
   const [skillsError, setSkillsError] = useState(null);
+
+  const handleOpenSettings = (tab = 'photo') => {
+    setSettingsTab(tab);
+    setIsSettingsOpen(true);
+  };
 
   const loadProfile = async () => {
     try {
@@ -50,9 +56,9 @@ function AppContent() {
 
   return (
     <div className="app-container">
-      <Navbar onOpenSettings={() => setIsSettingsOpen(true)} />
+      <Navbar onOpenSettings={handleOpenSettings} />
       <main>
-        <Hero profile={profile} onOpenSettings={() => setIsSettingsOpen(true)} />
+        <Hero profile={profile} onOpenSettings={handleOpenSettings} />
         <About profile={profile} />
         <Skills skills={skills} loading={skillsLoading} error={skillsError} onRetry={loadSkills} />
         <Projects />
@@ -68,6 +74,7 @@ function AppContent() {
         onClose={() => setIsSettingsOpen(false)}
         profile={profile}
         onProfileUpdated={loadProfile}
+        initialTab={settingsTab}
       />
     </div>
   );
