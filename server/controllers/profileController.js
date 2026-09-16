@@ -52,6 +52,27 @@ let defaultProfile = {
   ],
   certifications: [
     {
+      name: "AI Tools & Claude Workshop",
+      organization: "be10x",
+      date: "September 1, 2026",
+      certificateUrl: "#",
+      icon: "Cpu"
+    },
+    {
+      name: "IBM SkillsBuild AI Automation & Intelligent Solutions Internship",
+      organization: "BharatCares & IBM SkillsBuild (AICTE)",
+      date: "July 2026",
+      certificateUrl: "#",
+      icon: "ShieldCheck"
+    },
+    {
+      name: "HackIndia 2026 - Web3 & AI Hackathon",
+      organization: "HackIndia & C# Corner",
+      date: "2026",
+      certificateUrl: "#",
+      icon: "Code"
+    },
+    {
       name: "AWS Certified Developer – Associate",
       organization: "Amazon Web Services",
       date: "2024",
@@ -75,6 +96,15 @@ exports.getProfile = async (req, res, next) => {
     if (Profile.db && Profile.db.readyState === 1) {
       try {
         profile = await Profile.findOne().lean();
+        if (profile) {
+          // Auto-sync missing certificates into existing MongoDB profile
+          const existingNames = new Set((profile.certifications || []).map(c => c.name));
+          const certsToAdd = defaultProfile.certifications.filter(c => !existingNames.has(c.name));
+          if (certsToAdd.length > 0) {
+            await Profile.updateOne({}, { $push: { certifications: { $each: certsToAdd } } });
+            profile = await Profile.findOne().lean();
+          }
+        }
       } catch (err) {}
     }
     
