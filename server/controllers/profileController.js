@@ -62,19 +62,6 @@ let defaultProfile = {
       ],
       technologies: ["Generative AI", "AI Question Generation", "Prompt Engineering", "Data Management", "Python"],
       certificateUrl: "/experience/nextleap_internship_letter.jpg"
-    },
-    {
-      company: "Apex Tech Innovations",
-      role: "Full-Stack Software Engineer",
-      duration: "2024 - Present",
-      location: "Remote / On-site",
-      responsibilities: [
-        "Engineered responsive React micro-frontends serving over 50,000 active monthly users.",
-        "Designed and implemented RESTful microservices using Node.js, Express, and MongoDB Atlas.",
-        "Improved API throughput by 35% using Redis caching and query indexing."
-      ],
-      technologies: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS", "Git"],
-      certificateUrl: ""
     }
   ],
   certifications: [
@@ -124,8 +111,15 @@ exports.getProfile = async (req, res, next) => {
       try {
         profile = await Profile.findOne().lean();
         if (profile) {
-          // Auto-update certificate URLs if they were '#'
           let updated = false;
+
+          // Remove sample experience "Apex Tech Innovations" if present
+          if (profile.experience && profile.experience.some(e => e.company === 'Apex Tech Innovations')) {
+            profile.experience = profile.experience.filter(e => e.company !== 'Apex Tech Innovations');
+            updated = true;
+          }
+
+          // Auto-update certificate URLs if they were '#'
           if (profile.certifications) {
             profile.certifications = profile.certifications.map(c => {
               const matchingDefault = defaultProfile.certifications.find(d => d.name === c.name);
