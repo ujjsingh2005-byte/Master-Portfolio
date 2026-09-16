@@ -47,7 +47,8 @@ let defaultProfile = {
         "Engineered automated AI workflows, intelligent system solutions, and data processing pipelines.",
         "Delivered AI projects under mentorship of IBM SkillsBuild and BharatCares leadership."
       ],
-      technologies: ["AI Automation", "IBM SkillsBuild", "Machine Learning", "Python", "Intelligent Systems"]
+      technologies: ["AI Automation", "IBM SkillsBuild", "Machine Learning", "Python", "Intelligent Systems"],
+      certificateUrl: "/experience/ibm_skillsbuild_certificate.jpg"
     },
     {
       company: "Next Leap Analytics Pvt. Ltd.",
@@ -59,7 +60,8 @@ let defaultProfile = {
         "Designed and implemented AI-driven question generation engines and structured data management pipelines.",
         "Awarded Official Internship Completion Letter with top performance rating from Head of Operations."
       ],
-      technologies: ["Generative AI", "AI Question Generation", "Prompt Engineering", "Data Management", "Python"]
+      technologies: ["Generative AI", "AI Question Generation", "Prompt Engineering", "Data Management", "Python"],
+      certificateUrl: "/experience/nextleap_internship_letter.jpg"
     },
     {
       company: "Apex Tech Innovations",
@@ -71,7 +73,8 @@ let defaultProfile = {
         "Designed and implemented RESTful microservices using Node.js, Express, and MongoDB Atlas.",
         "Improved API throughput by 35% using Redis caching and query indexing."
       ],
-      technologies: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS", "Git"]
+      technologies: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS", "Git"],
+      certificateUrl: ""
     }
   ],
   certifications: [
@@ -140,7 +143,17 @@ exports.getProfile = async (req, res, next) => {
             profile.certifications = [...(profile.certifications || []), ...certsToAdd];
           }
 
-          // Auto-sync missing work experiences
+          // Auto-sync missing work experiences and update certificateUrl
+          if (profile.experience) {
+            profile.experience = profile.experience.map(e => {
+              const matchingDefault = defaultProfile.experience.find(d => d.role === e.role && d.company === e.company);
+              if (matchingDefault && matchingDefault.certificateUrl && !e.certificateUrl) {
+                updated = true;
+                return { ...e, certificateUrl: matchingDefault.certificateUrl };
+              }
+              return e;
+            });
+          }
           const existingExpRoles = new Set((profile.experience || []).map(e => e.role + e.company));
           const expsToAdd = defaultProfile.experience.filter(e => !existingExpRoles.has(e.role + e.company));
           if (expsToAdd.length > 0) {

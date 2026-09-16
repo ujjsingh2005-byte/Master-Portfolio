@@ -21,7 +21,8 @@ const ExperienceSchema = new mongoose.Schema({
   duration: { type: String, required: true },
   location: { type: String, default: 'Remote' },
   responsibilities: { type: [String], default: [] },
-  technologies: { type: [String], default: [] }
+  technologies: { type: [String], default: [] },
+  certificateUrl: { type: String, default: '' }
 });
 
 const CertificationSchema = new mongoose.Schema({
