@@ -10,7 +10,7 @@ import { getProjects, deleteProject } from '../../services/api';
 
 const categories = ['All', 'Full-Stack', 'Frontend', 'Backend'];
 
-const Projects = () => {
+const Projects = ({ isAdmin }) => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -77,14 +77,16 @@ const Projects = () => {
             </h2>
           </div>
 
-          {/* Upload / Add Project Action Button */}
-          <button
-            onClick={() => setIsAddModalOpen(true)}
-            className="btn-primary"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem' }}
-          >
-            <Plus size={18} /> Upload Project
-          </button>
+          {/* Upload / Add Project Action Button (Admin Only) */}
+          {isAdmin && (
+            <button
+              onClick={() => setIsAddModalOpen(true)}
+              className="btn-primary"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem' }}
+            >
+              <Plus size={18} /> Upload Project
+            </button>
+          )}
         </div>
 
         <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', marginBottom: '2.5rem', fontSize: '1.05rem' }}>
@@ -174,7 +176,7 @@ const Projects = () => {
                 key={proj._id || proj.title}
                 project={proj}
                 onSelect={(selected) => setSelectedProject(selected)}
-                onDelete={handleDeleteProject}
+                onDelete={isAdmin ? handleDeleteProject : undefined}
               />
             ))}
           </div>
@@ -186,15 +188,17 @@ const Projects = () => {
       <ProjectModal
         project={selectedProject}
         onClose={() => setSelectedProject(null)}
-        onDelete={handleDeleteProject}
+        onDelete={isAdmin ? handleDeleteProject : undefined}
       />
 
       {/* Upload Project Modal */}
-      <AddProjectModal
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        onProjectAdded={fetchProjectsData}
-      />
+      {isAdmin && (
+        <AddProjectModal
+          isOpen={isAddModalOpen}
+          onClose={() => setIsAddModalOpen(false)}
+          onProjectAdded={fetchProjectsData}
+        />
+      )}
     </section>
   );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
-import { ArrowUp, Github, Linkedin, Twitter } from 'lucide-react';
+import { ArrowUp, Github, Linkedin, Twitter, ShieldCheck, Lock } from 'lucide-react';
 
-const Footer = ({ profile }) => {
+const Footer = ({ profile, onOpenAdminLogin, isAdmin }) => {
   const social = profile?.socialLinks || {};
   const currentYear = new Date().getFullYear();
 
@@ -63,8 +63,39 @@ const Footer = ({ profile }) => {
           </button>
         </div>
 
-        <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
-          &copy; {currentYear} {profile?.name || 'Ujjwal Singh'}. Built with React, Vite, Node.js, Express & MongoDB. All rights reserved.
+        <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+          <div>
+            &copy; {currentYear} {profile?.name || 'Ujjwal Singh'}. Built with React, Vite, Node.js, Express & MongoDB. All rights reserved.
+          </div>
+
+          <div>
+            {isAdmin ? (
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', color: 'var(--status-success)', fontWeight: '600', fontSize: '0.8rem' }}>
+                <ShieldCheck size={14} /> Admin Mode Active
+              </span>
+            ) : (
+              <button
+                onClick={onOpenAdminLogin}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--text-muted)',
+                  fontSize: '0.8rem',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.35rem',
+                  cursor: 'pointer',
+                  opacity: 0.7,
+                  transition: 'opacity var(--transition-fast)'
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
+                onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.7')}
+                title="Admin Passcode Login"
+              >
+                <Lock size={13} /> Admin Portal
+              </button>
+            )}
+          </div>
         </div>
 
       </div>

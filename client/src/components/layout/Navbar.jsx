@@ -13,7 +13,7 @@ const navItems = [
   { label: 'Contact', href: '#contact' },
 ];
 
-const Navbar = ({ onOpenSettings }) => {
+const Navbar = ({ onOpenSettings, isAdmin }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -101,28 +101,30 @@ const Navbar = ({ onOpenSettings }) => {
 
           {/* Actions (Theme Toggle, Settings & Mobile Menu trigger) */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <button
-              onClick={() => onOpenSettings && onOpenSettings()}
-              aria-label="Edit Profile & Resume"
-              title="Edit Profile & Resume"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                padding: '0.5rem 0.85rem',
-                borderRadius: 'var(--radius-md)',
-                backgroundColor: 'rgba(99, 102, 241, 0.12)',
-                border: '1px solid var(--border-active)',
-                color: 'var(--accent-primary)',
-                fontWeight: '600',
-                fontSize: '0.85rem',
-                cursor: 'pointer',
-                transition: 'all var(--transition-fast)'
-              }}
-            >
-              <UserCog size={18} />
-              <span className="desktop-only-text">Settings</span>
-            </button>
+            {isAdmin && (
+              <button
+                onClick={() => onOpenSettings && onOpenSettings()}
+                aria-label="Edit Profile & Resume"
+                title="Edit Profile & Resume"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  padding: '0.5rem 0.85rem',
+                  borderRadius: 'var(--radius-md)',
+                  backgroundColor: 'rgba(99, 102, 241, 0.12)',
+                  border: '1px solid var(--border-active)',
+                  color: 'var(--accent-primary)',
+                  fontWeight: '600',
+                  fontSize: '0.85rem',
+                  cursor: 'pointer',
+                  transition: 'all var(--transition-fast)'
+                }}
+              >
+                <UserCog size={18} />
+                <span className="desktop-only-text">Settings</span>
+              </button>
+            )}
             <ThemeToggle />
             <button
               className="mobile-menu-btn"

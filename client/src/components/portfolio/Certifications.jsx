@@ -13,7 +13,7 @@ const iconMap = {
   Cpu: Cpu
 };
 
-const Certifications = ({ profile, onProfileUpdated }) => {
+const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
 
@@ -63,13 +63,15 @@ const Certifications = ({ profile, onProfileUpdated }) => {
             </h2>
           </div>
 
-          <button
-            onClick={() => setIsAddModalOpen(true)}
-            className="btn-primary"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem' }}
-          >
-            <Plus size={18} /> Add Certification
-          </button>
+          {isAdmin && (
+            <button
+              onClick={() => setIsAddModalOpen(true)}
+              className="btn-primary"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem' }}
+            >
+              <Plus size={18} /> Add Certification
+            </button>
+          )}
         </div>
 
         <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', marginBottom: '2.5rem', fontSize: '1.05rem' }}>
@@ -80,10 +82,16 @@ const Certifications = ({ profile, onProfileUpdated }) => {
           <div className="glass-card" style={{ padding: '3rem 2rem', textAlign: 'center', color: 'var(--text-muted)' }}>
             <Award size={40} style={{ margin: '0 auto 1rem auto', opacity: 0.5 }} />
             <h3 style={{ fontSize: '1.15rem', fontWeight: '700', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>No Certifications Added Yet</h3>
-            <p style={{ fontSize: '0.9rem', marginBottom: '1.25rem' }}>Click "Add Certification" above to display your verified badges and credentials.</p>
-            <button onClick={() => setIsAddModalOpen(true)} className="btn-primary">
-              <Plus size={16} /> Add First Certification
-            </button>
+            {isAdmin ? (
+              <>
+                <p style={{ fontSize: '0.9rem', marginBottom: '1.25rem' }}>Click "Add Certification" above to display your verified badges and credentials.</p>
+                <button onClick={() => setIsAddModalOpen(true)} className="btn-primary">
+                  <Plus size={16} /> Add First Certification
+                </button>
+              </>
+            ) : (
+              <p style={{ fontSize: '0.9rem' }}>Check back soon for updated credentials and certifications.</p>
+            )}
           </div>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
@@ -107,23 +115,25 @@ const Certifications = ({ profile, onProfileUpdated }) => {
                         </span>
 
                         {/* Delete Certification Button */}
-                        <button
-                          onClick={() => handleDeleteCert(cert)}
-                          disabled={isDeletingThis}
-                          aria-label={`Delete ${cert.name}`}
-                          title={`Delete ${cert.name}`}
-                          style={{
-                            color: 'var(--status-error)',
-                            padding: '0.25rem',
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            opacity: isDeletingThis ? 0.4 : 0.75,
-                            transition: 'opacity var(--transition-fast)',
-                            cursor: 'pointer'
-                          }}
-                        >
-                          {isDeletingThis ? <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} /> : <Trash2 size={17} />}
-                        </button>
+                        {isAdmin && (
+                          <button
+                            onClick={() => handleDeleteCert(cert)}
+                            disabled={isDeletingThis}
+                            aria-label={`Delete ${cert.name}`}
+                            title={`Delete ${cert.name}`}
+                            style={{
+                              color: 'var(--status-error)',
+                              padding: '0.25rem',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              opacity: isDeletingThis ? 0.4 : 0.75,
+                              transition: 'opacity var(--transition-fast)',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            {isDeletingThis ? <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} /> : <Trash2 size={17} />}
+                          </button>
+                        )}
                       </div>
                     </div>
 

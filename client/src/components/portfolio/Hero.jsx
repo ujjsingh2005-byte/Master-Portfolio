@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowRight, Download, Mail, Github, Linkedin, Twitter, Sparkles, GraduationCap, Eye, FileText, Camera, Upload, UserPlus } from 'lucide-react';
 
-const Hero = ({ profile, onOpenSettings }) => {
+const Hero = ({ profile, onOpenSettings, isAdmin }) => {
   const name = profile?.name || 'Ujjwal Singh';
   const title = profile?.title || 'Full-Stack Software Engineer';
   const educationDegree = profile?.educationDegree || 'B.Tech Computer Science Engineering';
@@ -175,34 +175,36 @@ const Hero = ({ profile, onOpenSettings }) => {
                       display: 'block'
                     }}
                   />
-                  <button
-                    onClick={() => onOpenSettings && onOpenSettings('photo')}
-                    aria-label="Change Profile Photo"
-                    title="Change Profile Photo"
-                    style={{
-                      position: 'absolute',
-                      bottom: '12px',
-                      right: '12px',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.4rem',
-                      padding: '0.5rem 0.9rem',
-                      borderRadius: 'var(--radius-full)',
-                      backgroundColor: 'rgba(15, 23, 42, 0.85)',
-                      border: '1px solid var(--border-active)',
-                      color: '#ffffff',
-                      fontSize: '0.825rem',
-                      fontWeight: '600',
-                      backdropFilter: 'blur(8px)',
-                      cursor: 'pointer',
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-                      transition: 'transform var(--transition-fast)'
-                    }}
-                  >
-                    <Camera size={16} /> Edit Photo
-                  </button>
+                  {isAdmin && (
+                    <button
+                      onClick={() => onOpenSettings && onOpenSettings('photo')}
+                      aria-label="Change Profile Photo"
+                      title="Change Profile Photo"
+                      style={{
+                        position: 'absolute',
+                        bottom: '12px',
+                        right: '12px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.4rem',
+                        padding: '0.5rem 0.9rem',
+                        borderRadius: 'var(--radius-full)',
+                        backgroundColor: 'rgba(15, 23, 42, 0.85)',
+                        border: '1px solid var(--border-active)',
+                        color: '#ffffff',
+                        fontSize: '0.825rem',
+                        fontWeight: '600',
+                        backdropFilter: 'blur(8px)',
+                        cursor: 'pointer',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                        transition: 'transform var(--transition-fast)'
+                      }}
+                    >
+                      <Camera size={16} /> Edit Photo
+                    </button>
+                  )}
                 </>
-              ) : (
+              ) : isAdmin ? (
                 <div
                   onClick={() => onOpenSettings && onOpenSettings('photo')}
                   style={{
@@ -258,6 +260,46 @@ const Hero = ({ profile, onOpenSettings }) => {
                     }}
                   >
                     <Camera size={15} /> Select Image
+                  </span>
+                </div>
+              ) : (
+                <div
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '2rem',
+                    textAlign: 'center',
+                    background: 'radial-gradient(circle at center, rgba(99, 102, 241, 0.12) 0%, transparent 70%)',
+                    borderRadius: 'calc(var(--radius-lg) - 6px)'
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '80px',
+                      height: '80px',
+                      borderRadius: '50%',
+                      backgroundColor: 'rgba(99, 102, 241, 0.15)',
+                      border: '1px solid var(--border-active)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'var(--accent-primary)',
+                      fontSize: '2rem',
+                      fontWeight: '800',
+                      marginBottom: '1rem'
+                    }}
+                  >
+                    US
+                  </div>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: '800', color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
+                    Ujjwal Singh
+                  </h3>
+                  <span style={{ fontSize: '0.875rem', color: 'var(--accent-primary)', fontWeight: '600' }}>
+                    Full-Stack Engineer
                   </span>
                 </div>
               )}

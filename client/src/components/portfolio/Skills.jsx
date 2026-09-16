@@ -14,7 +14,7 @@ const categoryIcons = {
   All: Layers,
 };
 
-const Skills = ({ skills, loading, error, onRetry }) => {
+const Skills = ({ skills, loading, error, onRetry, isAdmin }) => {
   const [activeCategory, setActiveCategory] = useState('All');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
@@ -69,13 +69,15 @@ const Skills = ({ skills, loading, error, onRetry }) => {
           </div>
 
           {/* Add Skill Button */}
-          <button
-            onClick={() => setIsAddModalOpen(true)}
-            className="btn-primary"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem' }}
-          >
-            <Plus size={18} /> Add Skill
-          </button>
+          {isAdmin && (
+            <button
+              onClick={() => setIsAddModalOpen(true)}
+              className="btn-primary"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem' }}
+            >
+              <Plus size={18} /> Add Skill
+            </button>
+          )}
         </div>
 
         <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', marginBottom: '2.5rem', fontSize: '1.05rem' }}>
@@ -149,23 +151,26 @@ const Skills = ({ skills, loading, error, onRetry }) => {
                         {skill.proficiency || 'Advanced'}
                       </span>
 
-                      {/* Delete Skill Button */}
-                      <button
-                        onClick={() => handleDeleteSkill(skill)}
-                        disabled={isDeletingThis}
-                        aria-label={`Delete ${skill.name}`}
-                        title={`Delete ${skill.name}`}
-                        style={{
-                          color: 'var(--status-error)',
-                          padding: '0.2rem',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          opacity: isDeletingThis ? 0.4 : 0.75,
-                          transition: 'opacity var(--transition-fast)'
-                        }}
-                      >
-                        {isDeletingThis ? <Loader2 size={15} style={{ animation: 'spin 1s linear infinite' }} /> : <Trash2 size={16} />}
-                      </button>
+                      {/* Delete Skill Button (Admin Only) */}
+                      {isAdmin && (
+                        <button
+                          onClick={() => handleDeleteSkill(skill)}
+                          disabled={isDeletingThis}
+                          aria-label={`Delete ${skill.name}`}
+                          title={`Delete ${skill.name}`}
+                          style={{
+                            color: 'var(--status-error)',
+                            padding: '0.2rem',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            opacity: isDeletingThis ? 0.4 : 0.75,
+                            transition: 'opacity var(--transition-fast)',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          {isDeletingThis ? <Loader2 size={15} style={{ animation: 'spin 1s linear infinite' }} /> : <Trash2 size={16} />}
+                        </button>
+                      )}
                     </div>
                   </div>
 
