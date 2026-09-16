@@ -107,6 +107,36 @@ export const deleteCertification = async (id) => {
   return res;
 };
 
+export const createEducation = async (eduData) => {
+  const res = await fetchJSON('/profile/education', {
+    method: 'POST',
+    body: JSON.stringify(eduData),
+  });
+  return res;
+};
+
+export const deleteEducation = async (id) => {
+  const res = await fetchJSON(`/profile/education/${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+  });
+  return res;
+};
+
+export const createExperience = async (expData) => {
+  const res = await fetchJSON('/profile/experience', {
+    method: 'POST',
+    body: JSON.stringify(expData),
+  });
+  return res;
+};
+
+export const deleteExperience = async (id) => {
+  const res = await fetchJSON(`/profile/experience/${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+  });
+  return res;
+};
+
 export const getSkills = async () => {
   const res = await fetchJSON('/skills');
   return res.data;

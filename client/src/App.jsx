@@ -172,8 +172,8 @@ function AppContent() {
         <About profile={profile} />
         <Skills skills={skills} loading={skillsLoading} error={skillsError} onRetry={loadSkills} isAdmin={isAdmin} />
         <Projects isAdmin={isAdmin} />
-        <Education profile={profile} />
-        <Experience profile={profile} />
+        <Education profile={profile} onProfileUpdated={loadProfile} isAdmin={isAdmin} />
+        <Experience profile={profile} onProfileUpdated={loadProfile} isAdmin={isAdmin} />
         <Certifications profile={profile} onProfileUpdated={loadProfile} isAdmin={isAdmin} />
         <Contact profile={profile} />
       </main>

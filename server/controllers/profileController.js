@@ -292,3 +292,134 @@ exports.deleteCertification = async (req, res, next) => {
     return errorResponse(res, 400, error.message || 'Failed to delete certification');
   }
 };
+
+// POST Add Education
+exports.addEducation = async (req, res, next) => {
+  try {
+    const { institution, degree, fieldOfStudy, duration, achievements } = req.body;
+    if (!institution || !degree || !fieldOfStudy || !duration) {
+      return errorResponse(res, 400, 'Institution, Degree, Field of Study, and Duration are required');
+    }
+
+    const newEdu = {
+      institution: institution.trim(),
+      degree: degree.trim(),
+      fieldOfStudy: fieldOfStudy.trim(),
+      duration: duration.trim(),
+      achievements: Array.isArray(achievements) ? achievements : (achievements ? achievements.split('\n').map(a => a.trim()).filter(Boolean) : [])
+    };
+
+    let profile = null;
+    if (Profile.db && Profile.db.readyState === 1) {
+      profile = await Profile.findOne();
+      if (!profile) {
+        profile = new Profile(defaultProfile);
+      }
+      profile.education.push(newEdu);
+      profile.updatedAt = new Date();
+      await profile.save();
+    } else {
+      newEdu._id = 'edu_' + Date.now();
+      defaultProfile.education.push(newEdu);
+      profile = defaultProfile;
+    }
+
+    return successResponse(res, 201, profile.education, 'Education added successfully!');
+  } catch (error) {
+    return errorResponse(res, 400, error.message || 'Failed to add education');
+  }
+};
+
+// DELETE Education
+exports.deleteEducation = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    let profile = null;
+    if (Profile.db && Profile.db.readyState === 1) {
+      profile = await Profile.findOne();
+      if (profile && profile.education) {
+        profile.education = profile.education.filter(
+          (edu, idx) => (edu._id ? edu._id.toString() !== id : true) && edu.degree !== id && idx.toString() !== id
+        );
+        profile.updatedAt = new Date();
+        await profile.save();
+      }
+    } else {
+      defaultProfile.education = defaultProfile.education.filter(
+        (edu, idx) => (edu._id ? edu._id !== id : true) && edu.degree !== id && idx.toString() !== id
+      );
+      profile = defaultProfile;
+    }
+
+    return successResponse(res, 200, profile ? profile.education : [], 'Education deleted successfully');
+  } catch (error) {
+    return errorResponse(res, 400, error.message || 'Failed to delete education');
+  }
+};
+
+// POST Add Experience
+exports.addExperience = async (req, res, next) => {
+  try {
+    const { company, role, duration, location, responsibilities, technologies } = req.body;
+    if (!company || !role || !duration) {
+      return errorResponse(res, 400, 'Company, Role, and Duration are required');
+    }
+
+    const newExp = {
+      company: company.trim(),
+      role: role.trim(),
+      duration: duration.trim(),
+      location: location ? location.trim() : 'Remote',
+      responsibilities: Array.isArray(responsibilities) ? responsibilities : (responsibilities ? responsibilities.split('\n').map(r => r.trim()).filter(Boolean) : []),
+      technologies: Array.isArray(technologies) ? technologies : (technologies ? technologies.split(',').map(t => t.trim()).filter(Boolean) : [])
+    };
+
+    let profile = null;
+    if (Profile.db && Profile.db.readyState === 1) {
+      profile = await Profile.findOne();
+      if (!profile) {
+        profile = new Profile(defaultProfile);
+      }
+      profile.experience.push(newExp);
+      profile.updatedAt = new Date();
+      await profile.save();
+    } else {
+      newExp._id = 'exp_' + Date.now();
+      defaultProfile.experience.push(newExp);
+      profile = defaultProfile;
+    }
+
+    return successResponse(res, 201, profile.experience, 'Work experience added successfully!');
+  } catch (error) {
+    return errorResponse(res, 400, error.message || 'Failed to add work experience');
+  }
+};
+
+// DELETE Experience
+exports.deleteExperience = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    let profile = null;
+    if (Profile.db && Profile.db.readyState === 1) {
+      profile = await Profile.findOne();
+      if (profile && profile.experience) {
+        profile.experience = profile.experience.filter(
+          (exp, idx) => (exp._id ? exp._id.toString() !== id : true) && exp.company !== id && idx.toString() !== id
+        );
+        profile.updatedAt = new Date();
+        await profile.save();
+      }
+    } else {
+      defaultProfile.experience = defaultProfile.experience.filter(
+        (exp, idx) => (exp._id ? exp._id !== id : true) && exp.company !== id && idx.toString() !== id
+      );
+      profile = defaultProfile;
+    }
+
+    return successResponse(res, 200, profile ? profile.experience : [], 'Work experience deleted successfully');
+  } catch (error) {
+    return errorResponse(res, 400, error.message || 'Failed to delete work experience');
+  }
+};

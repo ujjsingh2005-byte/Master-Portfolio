@@ -18,4 +18,12 @@ router.delete('/profile/resume', profileController.deleteResume);
 router.post('/profile/certifications', profileController.addCertification);
 router.delete('/profile/certifications/:id', profileController.deleteCertification);
 
+// Education Endpoints
+router.post('/profile/education', profileController.addEducation);
+router.delete('/profile/education/:id', profileController.deleteEducation);
+
+// Experience Endpoints
+router.post('/profile/experience', profileController.addExperience);
+router.delete('/profile/experience/:id', profileController.deleteExperience);
+
 module.exports = router;

@@ -13,7 +13,7 @@ const EducationSchema = new mongoose.Schema({
   fieldOfStudy: { type: String, required: true },
   duration: { type: String, required: true },
   achievements: { type: [String], default: [] }
-}, { _id: false });
+});
 
 const ExperienceSchema = new mongoose.Schema({
   company: { type: String, required: true },
@@ -22,7 +22,7 @@ const ExperienceSchema = new mongoose.Schema({
   location: { type: String, default: 'Remote' },
   responsibilities: { type: [String], default: [] },
   technologies: { type: [String], default: [] }
-}, { _id: false });
+});
 
 const CertificationSchema = new mongoose.Schema({
   name: { type: String, required: true },
