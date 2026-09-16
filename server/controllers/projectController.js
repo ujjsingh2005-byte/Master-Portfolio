@@ -85,7 +85,7 @@ exports.getProjects = async (req, res, next) => {
       try {
         const query = {};
         if (category && category !== 'All') {
-          query.category = category;
+          query.category = { $regex: new RegExp(category, 'i') };
         }
         if (search) {
           query.$or = [
@@ -96,28 +96,23 @@ exports.getProjects = async (req, res, next) => {
         if (tech) {
           query.technologies = { $in: [new RegExp(tech, 'i')] };
         }
-        projects = await Project.find(query).sort({ createdAt: -1 }).lean();
 
-        // Always update project githubUrl and liveUrl to valid GitHub/Vercel links
-        if (projects && projects.length > 0) {
-          let updated = false;
-          if (projects.length < defaultProjects.length || !projects.some(p => p.title.includes('UPI Shield'))) {
-            updated = true;
-          }
-          projects = projects.map(p => {
-            const matchingDefault = defaultProjects.find(d => d.title === p.title);
-            if (matchingDefault && (!p.githubUrl || p.githubUrl === '#' || p.githubUrl === 'https://github.com/ujjsingh2005-byte' || p.githubUrl.includes('Bharat-Sign-AI-3') || p.liveUrl !== matchingDefault.liveUrl)) {
-              updated = true;
-              return { ...p, githubUrl: matchingDefault.githubUrl, liveUrl: matchingDefault.liveUrl };
-            }
-            return p;
-          });
-          if (updated) {
-            await Project.deleteMany({});
-            await Project.insertMany(defaultProjects.map(({ _id, ...dp }) => dp));
-            projects = await Project.find(query).sort({ createdAt: -1 }).lean();
-          }
+        // Check if DB projects need full refresh with defaultProjects
+        const dbProjects = await Project.find({}).lean();
+        const needsReset = dbProjects.length !== defaultProjects.length ||
+          !dbProjects.some(p => p.title.includes('UPI Shield')) ||
+          dbProjects.some(p => p.githubUrl.includes('Bharat-Sign-AI-3') || p.githubUrl === '#' || !p.liveUrl || p.liveUrl === '#');
+
+        if (needsReset) {
+          await Project.deleteMany({});
+          await Project.insertMany(defaultProjects.map(({ _id, ...dp }) => dp));
         }
+
+        projects = await Project.find(query).sort({ createdAt: -1 }).lean();
+      } catch (err) {
+        console.warn('MongoDB query error, falling back to memory store:', err.message);
+      }
+    }
 
         // If MongoDB contains old sample projects (DevPulse, ShopSphere, TaskFlow, Nexus), clean them up!
         if (projects && projects.some(p => ['DevPulse - Developer Community Platform', 'ShopSphere - E-Commerce Dashboard & Store', 'TaskFlow - Agile Team Productivity System', 'Nexus API Guard - Rate Limiting & Auth Gateway'].includes(p.title))) {

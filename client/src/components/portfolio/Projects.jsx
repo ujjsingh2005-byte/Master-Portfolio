@@ -8,7 +8,7 @@ import ErrorMessage from '../common/ErrorMessage';
 import { Search, RefreshCw, Plus } from 'lucide-react';
 import { getProjects, deleteProject } from '../../services/api';
 
-const categories = ['All', 'Full-Stack', 'Frontend', 'Backend'];
+const categories = ['All', 'Full-Stack', 'AI & Web', 'Frontend', 'Backend'];
 
 const Projects = ({ isAdmin }) => {
   const [projects, setProjects] = useState([]);
