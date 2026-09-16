@@ -22,12 +22,14 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
   return (
     <div
       className="glass-card"
+      onClick={() => onSelect(project)}
       style={{
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
         height: '100%',
-        position: 'relative'
+        position: 'relative',
+        cursor: 'pointer'
       }}
     >
       {/* Project Image */}
@@ -94,7 +96,9 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
                 href={githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
                 aria-label="Source Code"
+                title="View GitHub Repository"
                 style={{ color: 'var(--text-secondary)', transition: 'color var(--transition-fast)' }}
               >
                 <Github size={18} />
@@ -105,7 +109,9 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
                 href={liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
                 aria-label="Live Preview"
+                title="Open Live Project / Demo"
                 style={{ color: 'var(--text-secondary)', transition: 'color var(--transition-fast)' }}
               >
                 <ExternalLink size={18} />

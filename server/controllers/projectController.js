@@ -9,8 +9,8 @@ let defaultProjects = [
     image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=800",
     technologies: ["JavaScript", "Express", "Node.js", "React.js", "MongoDB", "Tailwind CSS", "Cloudinary"],
     category: "Full-Stack",
-    githubUrl: "https://github.com/ujjsingh2005-byte",
-    liveUrl: "#",
+    githubUrl: "https://github.com/ujjsingh2005-byte/CourseHub",
+    liveUrl: "https://github.com/ujjsingh2005-byte/CourseHub",
     features: [
       "Engineered CourseHub supporting 1,000+ concurrent users with high reliability",
       "Optimized backend APIs & DB queries in Node.js & MongoDB, reducing response time by 30%",
@@ -27,8 +27,8 @@ let defaultProjects = [
     image: "https://images.unsplash.com/photo-1506521781263-d8422e82f27a?auto=format&fit=crop&q=80&w=800",
     technologies: ["React", "Node.js", "Express.js", "MongoDB"],
     category: "Full-Stack",
-    githubUrl: "https://github.com/ujjsingh2005-byte",
-    liveUrl: "#",
+    githubUrl: "https://github.com/ujjsingh2005-byte/Smart-Parking-System",
+    liveUrl: "https://github.com/ujjsingh2005-byte/Smart-Parking-System",
     features: [
       "Developed smart parking management system for efficient slot allocation",
       "Real-time parking slot availability tracking and instant booking",
@@ -45,8 +45,8 @@ let defaultProjects = [
     image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&q=80&w=800",
     technologies: ["React", "Next.js", "TypeScript", "Node.js", "Python", "FastAPI", "MediaPipe", "OpenCV", "Supabase", "PostgreSQL"],
     category: "AI & Web",
-    githubUrl: "https://github.com/ujjsingh2005-byte",
-    liveUrl: "#",
+    githubUrl: "https://github.com/ujjsingh2005-byte/Bharat-Sign-AI-3",
+    liveUrl: "https://github.com/ujjsingh2005-byte/Bharat-Sign-AI-3",
     features: [
       "Multilingual platform connecting spoken languages with Indian Sign Language",
       "Text, voice, and gesture-based translation engine",
@@ -79,6 +79,24 @@ exports.getProjects = async (req, res, next) => {
           query.technologies = { $in: [new RegExp(tech, 'i')] };
         }
         projects = await Project.find(query).sort({ createdAt: -1 }).lean();
+
+        // Always update project githubUrl and liveUrl to valid GitHub links if they were '#' or generic
+        if (projects && projects.length > 0) {
+          let updated = false;
+          projects = projects.map(p => {
+            const matchingDefault = defaultProjects.find(d => d.title === p.title);
+            if (matchingDefault && (!p.githubUrl || p.githubUrl === '#' || p.githubUrl === 'https://github.com/ujjsingh2005-byte')) {
+              updated = true;
+              return { ...p, githubUrl: matchingDefault.githubUrl, liveUrl: matchingDefault.liveUrl };
+            }
+            return p;
+          });
+          if (updated) {
+            await Project.deleteMany({});
+            await Project.insertMany(defaultProjects.map(({ _id, ...dp }) => dp));
+            projects = await Project.find(query).sort({ createdAt: -1 }).lean();
+          }
+        }
 
         // If MongoDB contains old sample projects (DevPulse, ShopSphere, TaskFlow, Nexus), clean them up!
         if (projects && projects.some(p => ['DevPulse - Developer Community Platform', 'ShopSphere - E-Commerce Dashboard & Store', 'TaskFlow - Agile Team Productivity System', 'Nexus API Guard - Rate Limiting & Auth Gateway'].includes(p.title))) {
