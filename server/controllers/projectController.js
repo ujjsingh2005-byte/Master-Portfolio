@@ -55,6 +55,24 @@ let defaultProjects = [
     ],
     featured: true,
     createdAt: new Date("2025-01-20").toISOString()
+  },
+  {
+    _id: "p4",
+    title: "UPI Shield | AI Fraud & Transaction Security",
+    description: "Engineered UPI Shield, an AI-powered financial fraud detection and secure transaction protection system protecting digital UPI payment flows against fraudulent activities.",
+    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800",
+    technologies: ["React", "Next.js", "Node.js", "TypeScript", "Tailwind CSS", "Vercel"],
+    category: "Full-Stack",
+    githubUrl: "https://github.com/ujjsingh2005-byte/Upi-Shield-",
+    liveUrl: "https://upi-shield-lime.vercel.app/",
+    features: [
+      "Real-time UPI transaction risk scoring and anomaly detection engine",
+      "AI-assisted payment verification & anti-fraud security rules",
+      "Seamless dashboard interface for monitoring suspicious digital payment activities",
+      "Deployed on Vercel with high-availability serverless architecture"
+    ],
+    featured: true,
+    createdAt: new Date("2025-10-10").toISOString()
   }
 ];
 
@@ -83,6 +101,9 @@ exports.getProjects = async (req, res, next) => {
         // Always update project githubUrl and liveUrl to valid GitHub/Vercel links
         if (projects && projects.length > 0) {
           let updated = false;
+          if (projects.length < defaultProjects.length || !projects.some(p => p.title.includes('UPI Shield'))) {
+            updated = true;
+          }
           projects = projects.map(p => {
             const matchingDefault = defaultProjects.find(d => d.title === p.title);
             if (matchingDefault && (!p.githubUrl || p.githubUrl === '#' || p.githubUrl === 'https://github.com/ujjsingh2005-byte' || p.githubUrl.includes('Bharat-Sign-AI-3') || p.liveUrl !== matchingDefault.liveUrl)) {
