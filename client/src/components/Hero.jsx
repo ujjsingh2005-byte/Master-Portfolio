@@ -2,11 +2,11 @@ import React from 'react';
 import { ArrowRight, Download, Mail, Github, Linkedin, Twitter, Sparkles } from 'lucide-react';
 
 const Hero = ({ profile }) => {
-  const name = profile?.name || 'Alex Morgan';
+  const name = profile?.name || 'Ujjwal Singh';
   const title = profile?.title || 'Full-Stack Software Engineer';
   const tagline = profile?.tagline || 'Building scalable web applications & seamless user experiences.';
-  const bio = profile?.bio || 'Passionate Full-Stack Developer with expertise in React, Node.js, Express, and MongoDB.';
-  const image = profile?.profileImage || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600';
+  const bio = profile?.bio || 'Full-Stack Developer and B.Tech CSE student passionate about building modern, scalable, high-performance web applications with beautiful user experiences.';
+  const image = profile?.profileImage || '/profile/ujjwal_singh_profile.jpg';
   const resumeUrl = profile?.resumeUrl || '#';
   const social = profile?.socialLinks || {};
 

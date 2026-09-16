@@ -7,7 +7,7 @@ const Hero = ({ profile, onOpenSettings, isAdmin }) => {
   const educationDegree = profile?.educationDegree || 'B.Tech Computer Science Engineering';
   const tagline = profile?.tagline || 'Building scalable web applications & seamless user experiences.';
   const bio = profile?.bio || 'Full-Stack Developer and B.Tech CSE student passionate about building modern, scalable, high-performance web applications with beautiful user experiences.';
-  const profileImage = profile?.profileImage || '';
+  const profileImage = profile?.profileImage || '/profile/ujjwal_singh_profile.jpg';
   const resumeUrl = profile?.resumeUrl || '/resume/Ujjwal_Singh_Resume.png';
   const resumeFileName = profile?.resumeFileName || 'Ujjwal_Singh_Resume.png';
   const social = profile?.socialLinks || {};

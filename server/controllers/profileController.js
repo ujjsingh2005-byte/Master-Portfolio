@@ -36,7 +36,7 @@ let defaultProfile = {
   ],
   email: "ujjsingh203@gmail.com",
   location: "AKTU, Lucknow, UP, India",
-  profileImage: "", // Empty default allows professional placeholder image
+  profileImage: "/profile/ujjwal_singh_profile.jpg",
   resumeUrl: "/resume/Ujjwal_Singh_Resume.png",
   resumeFileName: "Ujjwal_Singh_Resume.png",
   socialLinks: {
@@ -166,6 +166,12 @@ exports.getProfile = async (req, res, next) => {
             updated = true;
           }
 
+          // Auto-update profile photo if empty or missing or unsplash
+          if (!profile.profileImage || profile.profileImage === '' || profile.profileImage.includes('unsplash')) {
+            profile.profileImage = defaultProfile.profileImage;
+            updated = true;
+          }
+
           // Auto-update resume URL if empty or missing
           if (!profile.resumeUrl || profile.resumeUrl === '') {
             profile.resumeUrl = defaultProfile.resumeUrl;
@@ -216,7 +222,7 @@ exports.getProfile = async (req, res, next) => {
           }
 
           if (updated) {
-            await Profile.updateOne({}, { $set: { email: profile.email, location: profile.location, strengths: profile.strengths, technologiesOfInterest: profile.technologiesOfInterest, education: profile.education, resumeUrl: profile.resumeUrl, resumeFileName: profile.resumeFileName, certifications: profile.certifications, experience: profile.experience } });
+            await Profile.updateOne({}, { $set: { email: profile.email, location: profile.location, strengths: profile.strengths, technologiesOfInterest: profile.technologiesOfInterest, education: profile.education, profileImage: profile.profileImage, resumeUrl: profile.resumeUrl, resumeFileName: profile.resumeFileName, certifications: profile.certifications, experience: profile.experience } });
             profile = await Profile.findOne().lean();
           }
         }
