@@ -114,17 +114,6 @@ exports.getProjects = async (req, res, next) => {
       }
     }
 
-        // If MongoDB contains old sample projects (DevPulse, ShopSphere, TaskFlow, Nexus), clean them up!
-        if (projects && projects.some(p => ['DevPulse - Developer Community Platform', 'ShopSphere - E-Commerce Dashboard & Store', 'TaskFlow - Agile Team Productivity System', 'Nexus API Guard - Rate Limiting & Auth Gateway'].includes(p.title))) {
-          await Project.deleteMany({});
-          await Project.insertMany(defaultProjects.map(({ _id, ...p }) => p));
-          projects = await Project.find(query).sort({ createdAt: -1 }).lean();
-        }
-      } catch (err) {
-        console.warn('MongoDB query error, falling back to memory store:', err.message);
-      }
-    }
-
     if (!projects || projects.length === 0) {
       projects = [...defaultProjects];
       if (category && category !== 'All') {

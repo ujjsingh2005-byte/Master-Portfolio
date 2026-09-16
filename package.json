@@ -1,0 +1,19 @@
+{
+  "name": "master-portfolio",
+  "version": "1.0.0",
+  "description": "Full-Stack Master Portfolio",
+  "main": "server/server.js",
+  "scripts": {
+    "build": "cd server && npm install",
+    "start": "cd server && node server.js",
+    "dev": "cd server && npm run dev"
+  },
+  "keywords": [
+    "portfolio",
+    "express",
+    "react",
+    "nodejs"
+  ],
+  "author": "Ujjwal Singh",
+  "license": "MIT"
+}
