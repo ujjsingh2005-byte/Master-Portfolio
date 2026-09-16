@@ -55,21 +55,21 @@ let defaultProfile = {
       name: "AI Tools & Claude Workshop",
       organization: "be10x",
       date: "September 1, 2026",
-      certificateUrl: "#",
+      certificateUrl: "/certificates/be10x_ai_tools_certificate.jpg",
       icon: "Cpu"
     },
     {
       name: "IBM SkillsBuild AI Automation & Intelligent Solutions Internship",
       organization: "BharatCares & IBM SkillsBuild (AICTE)",
       date: "July 2026",
-      certificateUrl: "#",
+      certificateUrl: "/certificates/ibm_skillsbuild_certificate.jpg",
       icon: "ShieldCheck"
     },
     {
       name: "HackIndia 2026 - Web3 & AI Hackathon",
       organization: "HackIndia & C# Corner",
       date: "2026",
-      certificateUrl: "#",
+      certificateUrl: "/certificates/hackindia_2026_certificate.jpg",
       icon: "Code"
     },
     {
@@ -97,11 +97,26 @@ exports.getProfile = async (req, res, next) => {
       try {
         profile = await Profile.findOne().lean();
         if (profile) {
-          // Auto-sync missing certificates into existing MongoDB profile
+          // Auto-update certificate URLs if they were '#'
+          let updated = false;
+          if (profile.certifications) {
+            profile.certifications = profile.certifications.map(c => {
+              const matchingDefault = defaultProfile.certifications.find(d => d.name === c.name);
+              if (matchingDefault && (!c.certificateUrl || c.certificateUrl === '#')) {
+                updated = true;
+                return { ...c, certificateUrl: matchingDefault.certificateUrl };
+              }
+              return c;
+            });
+          }
           const existingNames = new Set((profile.certifications || []).map(c => c.name));
           const certsToAdd = defaultProfile.certifications.filter(c => !existingNames.has(c.name));
           if (certsToAdd.length > 0) {
-            await Profile.updateOne({}, { $push: { certifications: { $each: certsToAdd } } });
+            updated = true;
+            profile.certifications = [...(profile.certifications || []), ...certsToAdd];
+          }
+          if (updated) {
+            await Profile.updateOne({}, { $set: { certifications: profile.certifications } });
             profile = await Profile.findOne().lean();
           }
         }

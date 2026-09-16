@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ExternalLink, ShieldCheck, Plus, Trash2, Loader2, Award, Database, Server, Code, FileBadge, Cpu } from 'lucide-react';
+import { ExternalLink, ShieldCheck, Plus, Trash2, Loader2, Award, Database, Server, Code, FileBadge, Cpu, X, Eye } from 'lucide-react';
 import AddCertificationModal from './AddCertificationModal';
 import { deleteCertification } from '../../services/api';
 
@@ -13,9 +13,16 @@ const iconMap = {
   Cpu: Cpu
 };
 
+const defaultCertImages = {
+  "AI Tools & Claude Workshop": "/certificates/be10x_ai_tools_certificate.jpg",
+  "IBM SkillsBuild AI Automation & Intelligent Solutions Internship": "/certificates/ibm_skillsbuild_certificate.jpg",
+  "HackIndia 2026 - Web3 & AI Hackathon": "/certificates/hackindia_2026_certificate.jpg"
+};
+
 const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
+  const [previewCert, setPreviewCert] = useState(null);
 
   const certifications = profile?.certifications || [];
 
@@ -30,6 +37,29 @@ const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
         alert(err.message || 'Failed to delete certification.');
       } finally {
         setDeletingId(null);
+      }
+    }
+  };
+
+  const handleVerifyClick = (e, cert) => {
+    const imgUrl = cert.certificateUrl && cert.certificateUrl !== '#'
+      ? cert.certificateUrl
+      : defaultCertImages[cert.name];
+
+    if (imgUrl && imgUrl !== '#') {
+      if (imgUrl.startsWith('http://') || imgUrl.startsWith('https://')) {
+        window.open(imgUrl, '_blank', 'noopener,noreferrer');
+      } else {
+        e.preventDefault();
+        setPreviewCert({ ...cert, imageUrl: imgUrl });
+      }
+    } else {
+      e.preventDefault();
+      const fallbackImg = defaultCertImages[cert.name];
+      if (fallbackImg) {
+        setPreviewCert({ ...cert, imageUrl: fallbackImg });
+      } else {
+        alert(`Verification details for "${cert.name}" (${cert.organization}) are on record.`);
       }
     }
   };
@@ -146,10 +176,8 @@ const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
                     </p>
                   </div>
 
-                  <a
-                    href={cert.certificateUrl || '#'}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    onClick={(e) => handleVerifyClick(e, cert)}
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
@@ -158,15 +186,89 @@ const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
                       fontWeight: '600',
                       color: 'var(--accent-primary)',
                       paddingTop: '0.75rem',
-                      borderTop: '1px solid var(--border-color)'
+                      borderTop: '1px solid var(--border-color)',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      textAlign: 'left'
                     }}
                   >
                     Verify Credential <ExternalLink size={15} />
-                  </a>
+                  </button>
 
                 </div>
               );
             })}
+          </div>
+        )}
+
+        {/* Certificate Image Lightbox Modal */}
+        {previewCert && (
+          <div
+            onClick={() => setPreviewCert(null)}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.85)',
+              backdropFilter: 'blur(10px)',
+              zIndex: 2500,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '1.5rem'
+            }}
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="glass-card"
+              style={{
+                maxWidth: '850px',
+                width: '100%',
+                maxHeight: '90vh',
+                backgroundColor: 'var(--bg-secondary)',
+                borderRadius: 'var(--radius-lg)',
+                padding: '1.5rem',
+                display: 'flex',
+                flexDirection: 'column',
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', paddingBottom: '0.75rem', borderBottom: '1px solid var(--border-color)' }}>
+                <div>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: '800' }}>{previewCert.name}</h3>
+                  <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Issued by {previewCert.organization} • {previewCert.date}</span>
+                </div>
+
+                <button
+                  onClick={() => setPreviewCert(null)}
+                  style={{ color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer' }}
+                  aria-label="Close modal"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              <div style={{ flex: 1, overflowY: 'auto', textAlign: 'center', backgroundColor: '#0f172a', borderRadius: 'var(--radius-md)', padding: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src={previewCert.imageUrl}
+                  alt={previewCert.name}
+                  style={{ maxWidth: '100%', maxHeight: '65vh', objectFit: 'contain', borderRadius: 'var(--radius-sm)', boxShadow: '0 8px 32px rgba(0,0,0,0.5)' }}
+                />
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '1rem', paddingTop: '0.75rem', borderTop: '1px solid var(--border-color)' }}>
+                <a
+                  href={previewCert.imageUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem' }}
+                >
+                  <Eye size={16} /> Open Full Size Image
+                </a>
+              </div>
+            </div>
           </div>
         )}
 
