@@ -12,11 +12,11 @@ let defaultProfile = {
   careerGoals: "Aiming to lead high-impact engineering projects, contribute to open-source software, and push the boundaries of modern full-stack web technologies.",
   strengths: ["Full-Stack System Architecture", "RESTful API Design", "Responsive UI/UX Design", "Performance Optimization", "Clean Code & Refactoring"],
   technologiesOfInterest: ["TypeScript", "GraphQL", "Docker & Kubernetes", "Serverless Architecture", "Next.js"],
-  email: "ujjwal.singh.dev@example.com",
-  location: "India",
+  email: "ujjsingh203@gmail.com",
+  location: "AKTU, Lucknow, UP, India",
   profileImage: "", // Empty default allows professional placeholder image
-  resumeUrl: "",    // Empty default
-  resumeFileName: "",
+  resumeUrl: "/resume/Ujjwal_Singh_Resume.png",
+  resumeFileName: "Ujjwal_Singh_Resume.png",
   socialLinks: {
     github: "https://github.com",
     linkedin: "https://linkedin.com",
@@ -25,17 +25,38 @@ let defaultProfile = {
   },
   education: [
     {
-      institution: "State University of Technology",
+      institution: "GCRG, Dr. A.P.J. Abdul Kalam Technical University (AKTU)",
       degree: "B.Tech",
-      fieldOfStudy: "Computer Science Engineering (CSE)",
-      duration: "2022 - 2026",
+      fieldOfStudy: "Computer Science and Engineering",
+      duration: "Sep. 2023 - May 2027",
       achievements: [
-        "Specialized in Full-Stack Web Development & Data Structures",
-        "Lead Developer for Annual University Tech Symposium Website",
-        "Ranked Top 5% in Algorithm Design & Web System Architecture"
+        "Specialized in Data Structures, Algorithms, AI & Web System Architecture",
+        "Built Full-Stack Web Systems (CourseHub, Smart Parking, Bharat Sign AI 3)",
+        "Relevant Coursework: Data Structures, Algorithms, AI, DBMS, Systems Programming"
+      ]
+    },
+    {
+      institution: "Kamla Nehru Institute of Child and Education",
+      degree: "12th Standard",
+      fieldOfStudy: "Senior Secondary Science",
+      duration: "April 2021 - May 2022",
+      achievements: [
+        "Percentage: 75.33%",
+        "Sultanpur, Uttar Pradesh"
+      ]
+    },
+    {
+      institution: "Kamla Nehru Institute of Child and Education",
+      degree: "10th Standard",
+      fieldOfStudy: "Secondary Education",
+      duration: "April 2019 - May 2020",
+      achievements: [
+        "Percentage: 86.1%",
+        "Sultanpur, Uttar Pradesh"
       ]
     }
   ],
+
   experience: [
     {
       company: "BharatCares & IBM SkillsBuild",
@@ -113,6 +134,13 @@ exports.getProfile = async (req, res, next) => {
         if (profile) {
           let updated = false;
 
+          // Auto-update resume URL if empty or missing
+          if (!profile.resumeUrl || profile.resumeUrl === '') {
+            profile.resumeUrl = defaultProfile.resumeUrl;
+            profile.resumeFileName = defaultProfile.resumeFileName;
+            updated = true;
+          }
+
           // Remove sample experience "Apex Tech Innovations" if present
           if (profile.experience && profile.experience.some(e => e.company === 'Apex Tech Innovations')) {
             profile.experience = profile.experience.filter(e => e.company !== 'Apex Tech Innovations');
@@ -156,7 +184,7 @@ exports.getProfile = async (req, res, next) => {
           }
 
           if (updated) {
-            await Profile.updateOne({}, { $set: { certifications: profile.certifications, experience: profile.experience } });
+            await Profile.updateOne({}, { $set: { resumeUrl: profile.resumeUrl, resumeFileName: profile.resumeFileName, certifications: profile.certifications, experience: profile.experience } });
             profile = await Profile.findOne().lean();
           }
         }

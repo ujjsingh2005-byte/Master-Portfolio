@@ -1,5 +1,5 @@
-import React from 'react';
-import { ArrowRight, Download, Mail, Github, Linkedin, Twitter, Sparkles, GraduationCap, Eye, FileText, Camera, Upload, UserPlus } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowRight, Download, Mail, Github, Linkedin, Twitter, Sparkles, GraduationCap, Eye, FileText, Camera, Upload, X } from 'lucide-react';
 
 const Hero = ({ profile, onOpenSettings, isAdmin }) => {
   const name = profile?.name || 'Ujjwal Singh';
@@ -8,19 +8,21 @@ const Hero = ({ profile, onOpenSettings, isAdmin }) => {
   const tagline = profile?.tagline || 'Building scalable web applications & seamless user experiences.';
   const bio = profile?.bio || 'Full-Stack Developer and B.Tech CSE student passionate about building modern, scalable, high-performance web applications with beautiful user experiences.';
   const profileImage = profile?.profileImage || '';
-  const resumeUrl = profile?.resumeUrl || '';
-  const resumeFileName = profile?.resumeFileName || 'Ujjwal_Singh_Resume.pdf';
+  const resumeUrl = profile?.resumeUrl || '/resume/Ujjwal_Singh_Resume.png';
+  const resumeFileName = profile?.resumeFileName || 'Ujjwal_Singh_Resume.png';
   const social = profile?.socialLinks || {};
 
+  const [isResumePreviewOpen, setIsResumePreviewOpen] = useState(false);
+
   const handleResumeClick = (e) => {
-    if (!resumeUrl) {
-      e.preventDefault();
-      if (onOpenSettings) {
-        alert('No resume PDF uploaded yet. Opening Profile Management to upload your resume.');
-        onOpenSettings('resume');
-      } else {
-        alert('Resume not uploaded yet.');
-      }
+    e.preventDefault();
+    if (resumeUrl && resumeUrl !== '#') {
+      setIsResumePreviewOpen(true);
+    } else if (onOpenSettings) {
+      alert('No resume uploaded yet. Opening Profile Management to upload your resume.');
+      onOpenSettings('resume');
+    } else {
+      alert('Resume not uploaded yet.');
     }
   };
 
@@ -91,28 +93,14 @@ const Hero = ({ profile, onOpenSettings, isAdmin }) => {
               Contact Me <Mail size={18} />
             </a>
 
-            {/* Resume Button dynamically connected to resumeUrl */}
-            {resumeUrl ? (
-              <a
-                href={resumeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                download={resumeFileName}
-                className="btn-secondary"
-                title={`Resume: ${resumeFileName}`}
-              >
-                Resume <Download size={18} />
-              </a>
-            ) : (
-              <button
-                onClick={handleResumeClick}
-                className="btn-secondary"
-                style={{ opacity: 0.75 }}
-                title="Resume not uploaded yet"
-              >
-                Resume <FileText size={18} />
-              </button>
-            )}
+            {/* Resume Button opening preview modal */}
+            <button
+              onClick={handleResumeClick}
+              className="btn-secondary"
+              title="Click to view official resume"
+            >
+              Resume <Eye size={18} />
+            </button>
           </div>
 
           {/* Social Links */}
@@ -308,6 +296,91 @@ const Hero = ({ profile, onOpenSettings, isAdmin }) => {
         </div>
 
       </div>
+
+      {/* Resume Image Lightbox Modal */}
+      {isResumePreviewOpen && (
+        <div
+          onClick={() => setIsResumePreviewOpen(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.85)',
+            backdropFilter: 'blur(10px)',
+            zIndex: 2500,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '1.5rem'
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="glass-card"
+            style={{
+              maxWidth: '850px',
+              width: '100%',
+              maxHeight: '92vh',
+              backgroundColor: 'var(--bg-secondary)',
+              borderRadius: 'var(--radius-lg)',
+              padding: '1.5rem',
+              display: 'flex',
+              flexDirection: 'column',
+              position: 'relative',
+              overflow: 'hidden'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', paddingBottom: '0.75rem', borderBottom: '1px solid var(--border-color)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                <div style={{ padding: '0.5rem', borderRadius: 'var(--radius-sm)', backgroundColor: 'rgba(99, 102, 241, 0.12)', color: 'var(--accent-primary)' }}>
+                  <FileText size={22} />
+                </div>
+                <div>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: '800' }}>Ujjwal Singh - Official Resume</h3>
+                  <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>AKTU, Lucknow • B.Tech Computer Science Engineering</span>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setIsResumePreviewOpen(false)}
+                style={{ color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer' }}
+                aria-label="Close modal"
+              >
+                <X size={24} />
+              </button>
+            </div>
+
+            <div style={{ flex: 1, overflowY: 'auto', textAlign: 'center', backgroundColor: '#ffffff', borderRadius: 'var(--radius-sm)', padding: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <img
+                src={resumeUrl}
+                alt="Ujjwal Singh Resume"
+                style={{ maxWidth: '100%', height: 'auto', borderRadius: 'var(--radius-xs)', boxShadow: '0 4px 20px rgba(0,0,0,0.15)' }}
+              />
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '1rem', paddingTop: '0.75rem', borderTop: '1px solid var(--border-color)' }}>
+              <a
+                href={resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                download={resumeFileName}
+                className="btn-primary"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem' }}
+              >
+                <Download size={16} /> Download Resume
+              </a>
+              <a
+                href={resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem' }}
+              >
+                <Eye size={16} /> Open Full Size Image
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
 
       <style>{`
         @media (max-width: 868px) {
