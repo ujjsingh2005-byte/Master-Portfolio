@@ -10,8 +10,30 @@ let defaultProfile = {
   bio: "Full-Stack Developer and B.Tech CSE student passionate about building modern, scalable, high-performance web applications with beautiful user experiences.",
   journey: "Started coding during Computer Science Engineering studies and fell in love with creating end-to-end software solutions. Spent the last 3+ years engineering user-centric web applications and REST microservices.",
   careerGoals: "Aiming to lead high-impact engineering projects, contribute to open-source software, and push the boundaries of modern full-stack web technologies.",
-  strengths: ["Full-Stack System Architecture", "RESTful API Design", "Responsive UI/UX Design", "Performance Optimization", "Clean Code & Refactoring"],
-  technologiesOfInterest: ["TypeScript", "GraphQL", "Docker & Kubernetes", "Serverless Architecture", "Next.js"],
+  strengths: [
+    "Data Structures & Algorithms",
+    "Database Management Systems (DBMS)",
+    "Artificial Intelligence & Machine Learning",
+    "Systems Programming & Algorithms Analysis",
+    "Computer Organisation & Architecture",
+    "Full-Stack Web System Architecture"
+  ],
+  technologiesOfInterest: [
+    "C++",
+    "Python",
+    "Java",
+    "JavaScript",
+    "React.js",
+    "Next.js",
+    "Node.js",
+    "Express.js",
+    "MongoDB",
+    "PostgreSQL",
+    "Supabase",
+    "FastAPI",
+    "MediaPipe & OpenCV",
+    "Google Cloud Platform"
+  ],
   email: "ujjsingh203@gmail.com",
   location: "AKTU, Lucknow, UP, India",
   profileImage: "", // Empty default allows professional placeholder image
@@ -134,6 +156,16 @@ exports.getProfile = async (req, res, next) => {
         if (profile) {
           let updated = false;
 
+          // Always sync email, location, strengths & technologiesOfInterest to match resume
+          if (profile.email !== defaultProfile.email || profile.location !== defaultProfile.location) {
+            profile.email = defaultProfile.email;
+            profile.location = defaultProfile.location;
+            profile.strengths = defaultProfile.strengths;
+            profile.technologiesOfInterest = defaultProfile.technologiesOfInterest;
+            profile.education = defaultProfile.education;
+            updated = true;
+          }
+
           // Auto-update resume URL if empty or missing
           if (!profile.resumeUrl || profile.resumeUrl === '') {
             profile.resumeUrl = defaultProfile.resumeUrl;
@@ -184,7 +216,7 @@ exports.getProfile = async (req, res, next) => {
           }
 
           if (updated) {
-            await Profile.updateOne({}, { $set: { resumeUrl: profile.resumeUrl, resumeFileName: profile.resumeFileName, certifications: profile.certifications, experience: profile.experience } });
+            await Profile.updateOne({}, { $set: { email: profile.email, location: profile.location, strengths: profile.strengths, technologiesOfInterest: profile.technologiesOfInterest, education: profile.education, resumeUrl: profile.resumeUrl, resumeFileName: profile.resumeFileName, certifications: profile.certifications, experience: profile.experience } });
             profile = await Profile.findOne().lean();
           }
         }

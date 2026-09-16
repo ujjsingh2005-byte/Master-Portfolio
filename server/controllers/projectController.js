@@ -4,75 +4,57 @@ const { successResponse, errorResponse } = require('../utils/apiResponse');
 let defaultProjects = [
   {
     _id: "p1",
-    title: "DevPulse - Developer Community Platform",
-    description: "A full-stack developer platform for real-time collaboration, technical article sharing, and interactive coding discussions.",
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800",
-    technologies: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS"],
+    title: "CourseHub",
+    description: "Engineered CourseHub, a scalable online course management system using Node.js, Express.js, MongoDB, and React.js, supporting 1,000+ concurrent users with improved application performance and reliability.",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=800",
+    technologies: ["JavaScript", "Express", "Node.js", "React.js", "MongoDB", "Tailwind CSS", "Cloudinary"],
     category: "Full-Stack",
-    githubUrl: "https://github.com/example/devpulse",
-    liveUrl: "https://devpulse-demo.example.com",
+    githubUrl: "https://github.com/ujjsingh2005-byte",
+    liveUrl: "#",
     features: [
-      "User authentication & JWT security",
-      "Real-time post creation & markdown editor",
-      "Interactive code snippets with syntax highlighting",
-      "Tag-based project search and indexing"
+      "Engineered CourseHub supporting 1,000+ concurrent users with high reliability",
+      "Optimized backend APIs & DB queries in Node.js & MongoDB, reducing response time by 30%",
+      "Implemented JWT-based authentication with role-based access control for students, instructors, and admins",
+      "Integrated secure payment gateway for paid courses, reducing administrative effort by 40%"
     ],
     featured: true,
-    createdAt: new Date().toISOString()
+    createdAt: new Date("2025-08-15").toISOString()
   },
   {
     _id: "p2",
-    title: "ShopSphere - E-Commerce Dashboard & Store",
-    description: "High-performance online shopping engine with inventory management, cart state synchronization, and secure checkout processing.",
-    image: "https://images.unsplash.com/photo-1556742049-0a67daf4005a?auto=format&fit=crop&q=80&w=800",
-    technologies: ["React", "Express", "MongoDB", "Redux", "Stripe API"],
+    title: "Smart Parking System",
+    description: "Developed a smart parking management system for efficient parking slot allocation, real-time slot availability monitoring, and administrative booking management.",
+    image: "https://images.unsplash.com/photo-1506521781263-d8422e82f27a?auto=format&fit=crop&q=80&w=800",
+    technologies: ["React", "Node.js", "Express.js", "MongoDB"],
     category: "Full-Stack",
-    githubUrl: "https://github.com/example/shopsphere",
-    liveUrl: "https://shopsphere-demo.example.com",
+    githubUrl: "https://github.com/ujjsingh2005-byte",
+    liveUrl: "#",
     features: [
-      "Dynamic product catalog with multi-facet filters",
-      "Persistent basket state & discount logic",
-      "Admin analytics panel for sales and inventory tracking",
-      "Fully responsive checkout workflow"
+      "Developed smart parking management system for efficient slot allocation",
+      "Real-time parking slot availability tracking and instant booking",
+      "Designed user-friendly UI for customers and system administrators",
+      "Integrated backend services and MongoDB database management"
     ],
     featured: true,
-    createdAt: new Date().toISOString()
+    createdAt: new Date("2025-05-10").toISOString()
   },
   {
     _id: "p3",
-    title: "TaskFlow - Agile Team Productivity System",
-    description: "Kanban-style project management board with drag-and-drop task organization, activity logs, and deadline notifications.",
-    image: "https://images.unsplash.com/photo-1618401471353-b98aedd04e11?auto=format&fit=crop&q=80&w=800",
-    technologies: ["React", "Node.js", "MongoDB", "Express", "CSS Modules"],
-    category: "Frontend",
-    githubUrl: "https://github.com/example/taskflow",
-    liveUrl: "https://taskflow-demo.example.com",
+    title: "Bharat Sign AI 3 | AI Sign Language Platform",
+    description: "Built a multilingual communication platform connecting spoken languages with Indian Sign Language using text, voice, and gesture-based AI computer vision translation.",
+    image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&q=80&w=800",
+    technologies: ["React", "Next.js", "TypeScript", "Node.js", "Python", "FastAPI", "MediaPipe", "OpenCV", "Supabase", "PostgreSQL"],
+    category: "AI & Web",
+    githubUrl: "https://github.com/ujjsingh2005-byte",
+    liveUrl: "#",
     features: [
-      "Drag-and-drop Kanban workflow columns",
-      "Team member assignment and priority tagging",
-      "Custom task filter & status history",
-      "Dark mode visual layout support"
+      "Multilingual platform connecting spoken languages with Indian Sign Language",
+      "Text, voice, and gesture-based translation engine",
+      "English-to-ISL translation architecture with regional Indian language support",
+      "Two-way sign language recognition using MediaPipe & OpenCV AI vision models"
     ],
     featured: true,
-    createdAt: new Date().toISOString()
-  },
-  {
-    _id: "p4",
-    title: "Nexus API Guard - Rate Limiting & Auth Gateway",
-    description: "Lightweight Express middleware microservice for enterprise API security, rate limiting, request validation, and centralized logs.",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=800",
-    technologies: ["Node.js", "Express", "MongoDB", "Redis", "Helmet"],
-    category: "Backend",
-    githubUrl: "https://github.com/example/nexus-api-guard",
-    liveUrl: "https://nexus-gateway-demo.example.com",
-    features: [
-      "Token bucket rate limiting per IP / API Key",
-      "Role-based authorization middleware",
-      "Structured JSON audit logger",
-      "Sub-millisecond route validation throughput"
-    ],
-    featured: true,
-    createdAt: new Date().toISOString()
+    createdAt: new Date("2025-01-20").toISOString()
   }
 ];
 
@@ -97,6 +79,13 @@ exports.getProjects = async (req, res, next) => {
           query.technologies = { $in: [new RegExp(tech, 'i')] };
         }
         projects = await Project.find(query).sort({ createdAt: -1 }).lean();
+
+        // If MongoDB contains old sample projects (DevPulse, ShopSphere, TaskFlow, Nexus), clean them up!
+        if (projects && projects.some(p => ['DevPulse - Developer Community Platform', 'ShopSphere - E-Commerce Dashboard & Store', 'TaskFlow - Agile Team Productivity System', 'Nexus API Guard - Rate Limiting & Auth Gateway'].includes(p.title))) {
+          await Project.deleteMany({});
+          await Project.insertMany(defaultProjects.map(({ _id, ...p }) => p));
+          projects = await Project.find(query).sort({ createdAt: -1 }).lean();
+        }
       } catch (err) {
         console.warn('MongoDB query error, falling back to memory store:', err.message);
       }
