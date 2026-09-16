@@ -38,6 +38,30 @@ let defaultProfile = {
   ],
   experience: [
     {
+      company: "BharatCares & IBM SkillsBuild",
+      role: "AI Automation & Intelligent Solutions Intern",
+      duration: "June 2026 - July 2026",
+      location: "Remote / AICTE",
+      responsibilities: [
+        "Completed 6-week intensive internship in AI Automation & Intelligent Solutions in association with AICTE and IBM SkillsBuild.",
+        "Engineered automated AI workflows, intelligent system solutions, and data processing pipelines.",
+        "Delivered AI projects under mentorship of IBM SkillsBuild and BharatCares leadership."
+      ],
+      technologies: ["AI Automation", "IBM SkillsBuild", "Machine Learning", "Python", "Intelligent Systems"]
+    },
+    {
+      company: "Next Leap Analytics Pvt. Ltd.",
+      role: "AI Content and Technology Intern",
+      duration: "Nov 2025 - Dec 2025",
+      location: "Mumbai, Maharashtra",
+      responsibilities: [
+        "Actively contributed to Generative-AI-based content creation and automated workflow optimization.",
+        "Designed and implemented AI-driven question generation engines and structured data management pipelines.",
+        "Awarded Official Internship Completion Letter with top performance rating from Head of Operations."
+      ],
+      technologies: ["Generative AI", "AI Question Generation", "Prompt Engineering", "Data Management", "Python"]
+    },
+    {
       company: "Apex Tech Innovations",
       role: "Full-Stack Software Engineer",
       duration: "2024 - Present",
@@ -109,14 +133,23 @@ exports.getProfile = async (req, res, next) => {
               return c;
             });
           }
-          const existingNames = new Set((profile.certifications || []).map(c => c.name));
-          const certsToAdd = defaultProfile.certifications.filter(c => !existingNames.has(c.name));
+          const existingCertNames = new Set((profile.certifications || []).map(c => c.name));
+          const certsToAdd = defaultProfile.certifications.filter(c => !existingCertNames.has(c.name));
           if (certsToAdd.length > 0) {
             updated = true;
             profile.certifications = [...(profile.certifications || []), ...certsToAdd];
           }
+
+          // Auto-sync missing work experiences
+          const existingExpRoles = new Set((profile.experience || []).map(e => e.role + e.company));
+          const expsToAdd = defaultProfile.experience.filter(e => !existingExpRoles.has(e.role + e.company));
+          if (expsToAdd.length > 0) {
+            updated = true;
+            profile.experience = [...expsToAdd, ...(profile.experience || [])];
+          }
+
           if (updated) {
-            await Profile.updateOne({}, { $set: { certifications: profile.certifications } });
+            await Profile.updateOne({}, { $set: { certifications: profile.certifications, experience: profile.experience } });
             profile = await Profile.findOne().lean();
           }
         }
