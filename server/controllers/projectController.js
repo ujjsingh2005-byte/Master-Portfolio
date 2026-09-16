@@ -45,8 +45,8 @@ let defaultProjects = [
     image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&q=80&w=800",
     technologies: ["React", "Next.js", "TypeScript", "Node.js", "Python", "FastAPI", "MediaPipe", "OpenCV", "Supabase", "PostgreSQL"],
     category: "AI & Web",
-    githubUrl: "https://github.com/ujjsingh2005-byte/Bharat-Sign-AI-3",
-    liveUrl: "https://github.com/ujjsingh2005-byte/Bharat-Sign-AI-3",
+    githubUrl: "https://github.com/ujjsingh2005-byte/Bharat-Sign-AI",
+    liveUrl: "https://bharat-sign-ai.vercel.app",
     features: [
       "Multilingual platform connecting spoken languages with Indian Sign Language",
       "Text, voice, and gesture-based translation engine",
@@ -80,12 +80,12 @@ exports.getProjects = async (req, res, next) => {
         }
         projects = await Project.find(query).sort({ createdAt: -1 }).lean();
 
-        // Always update project githubUrl and liveUrl to valid GitHub links if they were '#' or generic
+        // Always update project githubUrl and liveUrl to valid GitHub/Vercel links
         if (projects && projects.length > 0) {
           let updated = false;
           projects = projects.map(p => {
             const matchingDefault = defaultProjects.find(d => d.title === p.title);
-            if (matchingDefault && (!p.githubUrl || p.githubUrl === '#' || p.githubUrl === 'https://github.com/ujjsingh2005-byte')) {
+            if (matchingDefault && (!p.githubUrl || p.githubUrl === '#' || p.githubUrl === 'https://github.com/ujjsingh2005-byte' || p.githubUrl.includes('Bharat-Sign-AI-3') || p.liveUrl !== matchingDefault.liveUrl)) {
               updated = true;
               return { ...p, githubUrl: matchingDefault.githubUrl, liveUrl: matchingDefault.liveUrl };
             }
