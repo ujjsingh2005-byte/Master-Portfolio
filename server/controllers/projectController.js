@@ -27,7 +27,7 @@ let defaultProjects = [
     image: "https://images.unsplash.com/photo-1506521781263-d8422e82f27a?auto=format&fit=crop&q=80&w=800",
     technologies: ["React", "Node.js", "Express.js", "MongoDB"],
     category: "Full-Stack",
-    githubUrl: "https://github.com/ujjsingh2005-byte/Smart-Parking-System",
+    githubUrl: "https://github.com/ujjsingh2005-byte/PrivateParking-System",
     liveUrl: "https://private-parking-system.vercel.app",
     features: [
       "Developed smart parking management system for efficient slot allocation",
@@ -101,7 +101,7 @@ exports.getProjects = async (req, res, next) => {
         const dbProjects = await Project.find({}).lean();
         const needsReset = dbProjects.length !== defaultProjects.length ||
           !dbProjects.some(p => p.title.includes('UPI Shield')) ||
-          dbProjects.some(p => p.title.includes('Smart Parking') && p.liveUrl !== 'https://private-parking-system.vercel.app') ||
+          dbProjects.some(p => p.title.includes('Smart Parking') && (p.githubUrl !== 'https://github.com/ujjsingh2005-byte/PrivateParking-System' || p.liveUrl !== 'https://private-parking-system.vercel.app')) ||
           dbProjects.some(p => p.githubUrl.includes('Bharat-Sign-AI-3') || p.githubUrl === '#' || !p.liveUrl || p.liveUrl === '#');
 
         if (needsReset) {
