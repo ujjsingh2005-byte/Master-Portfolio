@@ -11,34 +11,35 @@ let defaultProfile = {
   journey: "Started coding during Computer Science Engineering studies and fell in love with creating end-to-end software solutions. Spent the last 3+ years engineering user-centric web applications and REST microservices.",
   careerGoals: "Aiming to lead high-impact engineering projects, contribute to open-source software, and push the boundaries of modern full-stack web technologies.",
   strengths: [
-    "Data Structures & Algorithms",
-    "Database Management Systems (DBMS)",
-    "Artificial Intelligence & Machine Learning",
-    "Systems Programming & Algorithms Analysis",
-    "Computer Organisation & Architecture",
-    "Full-Stack Web System Architecture"
+    "Data Structures and Algorithms",
+    "Digital Electronics",
+    "Algorithms Analysis",
+    "Database Management",
+    "Artificial Intelligence",
+    "Discrete Mathematics",
+    "Systems Programming",
+    "Computer Organisation and Architecture"
   ],
   technologiesOfInterest: [
     "C++",
-    "Python",
+    "Python (Basic)",
     "Java",
+    "C",
+    "HTML/CSS",
     "JavaScript",
-    "React.js",
-    "Next.js",
-    "Node.js",
-    "Express.js",
-    "MongoDB",
-    "PostgreSQL",
-    "Supabase",
-    "FastAPI",
-    "MediaPipe & OpenCV",
+    "SQL",
+    "PSQL",
+    "Node",
+    "Linux",
+    "GitHub",
+    "VS Code",
     "Google Cloud Platform"
   ],
   email: "ujjsingh203@gmail.com",
   location: "AKTU, Lucknow, UP, India",
   profileImage: "/profile/ujjwal_singh_profile.jpg",
-  resumeUrl: "/resume/Ujjwal_Singh_Resume.png",
-  resumeFileName: "Ujjwal_Singh_Resume.png",
+  resumeUrl: "/resume/Ujjwal_Singh_Resume.pdf",
+  resumeFileName: "Ujjwal_Singh_Resume.pdf",
   socialLinks: {
     github: "https://github.com",
     linkedin: "https://linkedin.com",
@@ -47,14 +48,13 @@ let defaultProfile = {
   },
   education: [
     {
-      institution: "GCRG, Dr. A.P.J. Abdul Kalam Technical University (AKTU)",
+      institution: "GCRG, Dr.A.P.J Abdul Kalam Technical University",
       degree: "B.Tech",
       fieldOfStudy: "Computer Science and Engineering",
       duration: "Sep. 2023 - May 2027",
       achievements: [
-        "Specialized in Data Structures, Algorithms, AI & Web System Architecture",
-        "Built Full-Stack Web Systems (CourseHub, Smart Parking, Bharat Sign AI 3)",
-        "Relevant Coursework: Data Structures, Algorithms, AI, DBMS, Systems Programming"
+        "Specialized in Data Structures, Algorithms, AI & Systems Programming",
+        "Lucknow, Uttar Pradesh"
       ]
     },
     {
@@ -63,7 +63,7 @@ let defaultProfile = {
       fieldOfStudy: "Senior Secondary Science",
       duration: "April 2021 - May 2022",
       achievements: [
-        "Percentage: 75.33%",
+        "Percentage: 81%",
         "Sultanpur, Uttar Pradesh"
       ]
     },
@@ -73,7 +73,7 @@ let defaultProfile = {
       fieldOfStudy: "Secondary Education",
       duration: "April 2019 - May 2020",
       achievements: [
-        "Percentage: 86.1%",
+        "Percentage: 88.8%",
         "Sultanpur, Uttar Pradesh"
       ]
     }
@@ -156,26 +156,19 @@ exports.getProfile = async (req, res, next) => {
         if (profile) {
           let updated = false;
 
-          // Always sync email, location, strengths & technologiesOfInterest to match resume
-          if (profile.email !== defaultProfile.email || profile.location !== defaultProfile.location) {
-            profile.email = defaultProfile.email;
-            profile.location = defaultProfile.location;
-            profile.strengths = defaultProfile.strengths;
-            profile.technologiesOfInterest = defaultProfile.technologiesOfInterest;
-            profile.education = defaultProfile.education;
-            updated = true;
-          }
+          // Always sync email, location, strengths, technologies & education to match latest resume
+          profile.email = defaultProfile.email;
+          profile.location = defaultProfile.location;
+          profile.strengths = defaultProfile.strengths;
+          profile.technologiesOfInterest = defaultProfile.technologiesOfInterest;
+          profile.education = defaultProfile.education;
+          profile.resumeUrl = defaultProfile.resumeUrl;
+          profile.resumeFileName = defaultProfile.resumeFileName;
+          updated = true;
 
           // Auto-update profile photo if empty or missing or unsplash
           if (!profile.profileImage || profile.profileImage === '' || profile.profileImage.includes('unsplash')) {
             profile.profileImage = defaultProfile.profileImage;
-            updated = true;
-          }
-
-          // Auto-update resume URL if empty or missing
-          if (!profile.resumeUrl || profile.resumeUrl === '') {
-            profile.resumeUrl = defaultProfile.resumeUrl;
-            profile.resumeFileName = defaultProfile.resumeFileName;
             updated = true;
           }
 
