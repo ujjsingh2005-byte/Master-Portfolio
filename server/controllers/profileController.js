@@ -109,6 +109,13 @@ let defaultProfile = {
   ],
   certifications: [
     {
+      name: "CatalystHack - National Hackathon",
+      organization: "Career Catalyst Club (GITM) & GeeksForGeeks",
+      date: "September 7, 2026",
+      certificateUrl: "/certificates/catalysthack_gfg_certificate.jpg",
+      icon: "Code"
+    },
+    {
       name: "AI Tools & Claude Workshop",
       organization: "be10x",
       date: "September 1, 2026",
