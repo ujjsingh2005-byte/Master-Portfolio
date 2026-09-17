@@ -28,7 +28,7 @@ let defaultProjects = [
     technologies: ["React", "Node.js", "Express.js", "MongoDB"],
     category: "Full-Stack",
     githubUrl: "https://github.com/ujjsingh2005-byte/Smart-Parking-System",
-    liveUrl: "https://github.com/ujjsingh2005-byte/Smart-Parking-System",
+    liveUrl: "https://private-parking-system.vercel.app",
     features: [
       "Developed smart parking management system for efficient slot allocation",
       "Real-time parking slot availability tracking and instant booking",
@@ -101,6 +101,7 @@ exports.getProjects = async (req, res, next) => {
         const dbProjects = await Project.find({}).lean();
         const needsReset = dbProjects.length !== defaultProjects.length ||
           !dbProjects.some(p => p.title.includes('UPI Shield')) ||
+          dbProjects.some(p => p.title.includes('Smart Parking') && p.liveUrl !== 'https://private-parking-system.vercel.app') ||
           dbProjects.some(p => p.githubUrl.includes('Bharat-Sign-AI-3') || p.githubUrl === '#' || !p.liveUrl || p.liveUrl === '#');
 
         if (needsReset) {
