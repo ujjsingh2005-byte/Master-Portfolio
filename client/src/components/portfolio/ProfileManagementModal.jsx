@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { X, Upload, Trash2, Eye, Download, UserCheck, FileText, Camera, Loader2, AlertCircle, CheckCircle2, RefreshCw } from 'lucide-react';
-import { uploadProfilePhoto, deleteProfilePhoto, uploadResume, deleteResume, updateProfile } from '../../services/api';
+import { X, Upload, Trash2, Eye, Download, UserCheck, FileText, Camera, Loader2, AlertCircle, CheckCircle2, RefreshCw, Mail, Inbox, Clock } from 'lucide-react';
+import { uploadProfilePhoto, deleteProfilePhoto, uploadResume, deleteResume, updateProfile, getContactMessages, deleteContactMessage } from '../../services/api';
 
 const defaultAvatarPlaceholder = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600';
 
@@ -29,9 +29,28 @@ const ProfileManagementModal = ({ isOpen, onClose, profile, onProfileUpdated, in
   const [infoLoading, setInfoLoading] = useState(false);
   const [infoMessage, setInfoMessage] = useState({ type: '', text: '' });
 
+  // Contact Messages Inbox State
+  const [messages, setMessages] = useState([]);
+  const [messagesLoading, setMessagesLoading] = useState(false);
+  const [messagesError, setMessagesError] = useState('');
+
+  const fetchMessages = async () => {
+    try {
+      setMessagesLoading(true);
+      setMessagesError('');
+      const data = await getContactMessages();
+      setMessages(data || []);
+    } catch (err) {
+      setMessagesError(err.message || 'Failed to load contact messages.');
+    } finally {
+      setMessagesLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (isOpen) {
       if (initialTab) setActiveTab(initialTab);
+      fetchMessages();
       if (profile) {
         setPhotoPreview(profile.profileImage || '');
         setResumeUrl(profile.resumeUrl || '');
@@ -282,6 +301,23 @@ const ProfileManagementModal = ({ isOpen, onClose, profile, onProfileUpdated, in
           >
             <UserCheck size={16} /> Personal Info
           </button>
+
+          <button
+            onClick={() => { setActiveTab('messages'); fetchMessages(); }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              padding: '0.5rem 1rem',
+              borderRadius: 'var(--radius-full)',
+              fontSize: '0.875rem',
+              fontWeight: '600',
+              backgroundColor: activeTab === 'messages' ? 'var(--accent-primary)' : 'transparent',
+              color: activeTab === 'messages' ? '#fff' : 'var(--text-secondary)'
+            }}
+          >
+            <Mail size={16} /> Contact Inbox ({messages.length})
+          </button>
         </div>
 
         {/* TAB 1: PROFILE PHOTO MANAGEMENT */}
@@ -496,6 +532,101 @@ const ProfileManagementModal = ({ isOpen, onClose, profile, onProfileUpdated, in
             </div>
 
           </form>
+        )}
+
+        {/* TAB 4: CONTACT MESSAGES INBOX */}
+        {activeTab === 'messages' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '0.5rem', borderBottom: '1px solid var(--border-color)' }}>
+              <h3 style={{ fontSize: '1.05rem', fontWeight: '700', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Inbox size={18} style={{ color: 'var(--accent-primary)' }} />
+                Received Messages ({messages.length})
+              </h3>
+              <button
+                onClick={fetchMessages}
+                className="btn-secondary"
+                style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+              >
+                <RefreshCw size={14} style={{ animation: messagesLoading ? 'spin 1s linear infinite' : 'none' }} /> Refresh
+              </button>
+            </div>
+
+            {messagesError && (
+              <div style={{ padding: '0.8rem 1rem', borderRadius: 'var(--radius-md)', backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', color: 'var(--status-error)', fontSize: '0.875rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <AlertCircle size={18} />
+                <span>{messagesError}</span>
+              </div>
+            )}
+
+            {messagesLoading ? (
+              <div style={{ padding: '2.5rem', textAlign: 'center', color: 'var(--text-muted)' }}>
+                <Loader2 size={26} style={{ animation: 'spin 1s linear infinite', margin: '0 auto 0.5rem' }} />
+                <p style={{ fontSize: '0.875rem' }}>Loading messages...</p>
+              </div>
+            ) : messages.length === 0 ? (
+              <div style={{ padding: '3rem 1.5rem', textAlign: 'center', backgroundColor: 'var(--bg-primary)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
+                <Mail size={36} style={{ color: 'var(--text-muted)', marginBottom: '0.75rem', opacity: 0.5 }} />
+                <p style={{ color: 'var(--text-secondary)', fontWeight: '600', fontSize: '0.95rem' }}>No messages in inbox</p>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '0.25rem' }}>When visitors submit messages through your contact form, they will appear here automatically.</p>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxHeight: '420px', overflowY: 'auto', paddingRight: '0.25rem' }}>
+                {messages.map((msg) => (
+                  <div
+                    key={msg._id || msg.id}
+                    style={{
+                      padding: '1.25rem',
+                      backgroundColor: 'var(--bg-primary)',
+                      borderRadius: 'var(--radius-md)',
+                      border: '1px solid var(--border-color)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '0.75rem'
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
+                      <div>
+                        <h4 style={{ fontSize: '1rem', fontWeight: '700', color: 'var(--text-primary)', marginBottom: '0.2rem' }}>
+                          {msg.name}
+                        </h4>
+                        <a href={`mailto:${msg.email}`} style={{ fontSize: '0.85rem', color: 'var(--accent-primary)', textDecoration: 'none' }}>
+                          {msg.email}
+                        </a>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                          <Clock size={12} />
+                          {msg.createdAt ? new Date(msg.createdAt).toLocaleString() : 'Recent'}
+                        </span>
+                        <button
+                          onClick={async () => {
+                            if (window.confirm(`Delete message from ${msg.name}?`)) {
+                              await deleteContactMessage(msg._id || msg.id);
+                              fetchMessages();
+                            }
+                          }}
+                          title="Delete message"
+                          style={{ color: 'var(--status-error)', background: 'transparent', border: 'none', cursor: 'pointer', padding: '0.2rem' }}
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    </div>
+
+                    {msg.subject && (
+                      <div style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-secondary)' }}>
+                        Subject: <span style={{ fontWeight: '500', color: 'var(--text-primary)' }}>{msg.subject}</span>
+                      </div>
+                    )}
+
+                    <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: '1.6', whiteSpace: 'pre-wrap', backgroundColor: 'rgba(255, 255, 255, 0.02)', padding: '0.75rem', borderRadius: 'var(--radius-sm)', border: '1px dashed var(--border-color)' }}>
+                      {msg.message}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         )}
 
       </div>

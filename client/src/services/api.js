@@ -195,3 +195,15 @@ export const sendContactMessage = async (formData) => {
   });
   return res;
 };
+
+export const getContactMessages = async () => {
+  const res = await fetchJSON('/contact');
+  return res.data;
+};
+
+export const deleteContactMessage = async (id) => {
+  const res = await fetchJSON(`/contact/${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+  });
+  return res;
+};
