@@ -1,6 +1,6 @@
 @import './variables.css';
 
-/* Box-sizing reset */
+/* Reset & Base Styles */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -10,15 +10,16 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  text-rendering: optimizeLegibility;
 }
 
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-primary);
   background-image: 
-    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.12) 0px, transparent 50%),
-    radial-gradient(at 50% 100%, rgba(6, 182, 212, 0.08) 0px, transparent 50%);
+    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.06) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(99, 102, 241, 0.05) 0px, transparent 50%);
   background-attachment: fixed;
   color: var(--text-primary);
   line-height: 1.6;
@@ -26,11 +27,13 @@ body {
   transition: background-color var(--transition-normal), color var(--transition-normal);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+  transition: color var(--transition-fast);
 }
 
 button {
@@ -52,7 +55,7 @@ input, textarea, select {
   border-radius: var(--radius-sm);
 }
 
-/* Container Utility */
+/* Container Layout */
 .container {
   width: 100%;
   max-width: 1200px;
@@ -60,14 +63,21 @@ input, textarea, select {
   padding: 0 1.5rem;
 }
 
-/* Section Wrapper */
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+/* Section Container */
 .section {
-  padding: 6rem 0;
+  padding: 5.5rem 0;
+  position: relative;
 }
 
 @media (max-width: 768px) {
   .section {
-    padding: 4rem 0;
+    padding: 3.5rem 0;
   }
 }
 
@@ -83,7 +93,7 @@ input, textarea, select {
 .glass-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -91,12 +101,12 @@ input, textarea, select {
 }
 
 .glass-card:hover {
-  border-color: var(--border-active);
+  border-color: var(--border-hover);
   transform: translateY(-4px);
-  box-shadow: var(--shadow-accent), var(--shadow-glow);
+  box-shadow: var(--shadow-accent);
 }
 
-/* Primary Button */
+/* Buttons */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -106,18 +116,18 @@ input, textarea, select {
   background: var(--accent-gradient);
   color: #ffffff;
   font-weight: 600;
-  border-radius: var(--radius-full);
+  font-size: 0.95rem;
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow-accent);
   transition: transform var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  opacity: 0.96;
-  box-shadow: var(--shadow-accent), var(--shadow-glow);
+  opacity: 0.95;
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.35);
 }
 
-/* Secondary Button */
 .btn-secondary {
   display: inline-flex;
   align-items: center;
@@ -128,7 +138,8 @@ input, textarea, select {
   color: var(--text-primary);
   border: 1px solid var(--border-color);
   font-weight: 600;
-  border-radius: var(--radius-full);
+  font-size: 0.95rem;
+  border-radius: var(--radius-md);
   transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
 }
 
@@ -138,20 +149,35 @@ input, textarea, select {
   transform: translateY(-2px);
 }
 
-/* Badge Pill Utility */
+/* Status & Pill Badges */
 .badge-pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.4rem;
   padding: 0.35rem 0.9rem;
   font-size: 0.8rem;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   color: var(--accent-primary);
-  background: var(--accent-gradient-glow);
-  border: 1px solid var(--border-active);
+  background: var(--accent-gradient-subtle);
+  border: 1px solid var(--border-hover);
   border-radius: var(--radius-full);
+}
+
+/* Status Indicator Dot */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--status-success);
+  box-shadow: 0 0 10px var(--status-success);
+  display: inline-block;
+  animation: pulse-dot 2s infinite ease-in-out;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); }
 }
 
 /* Custom Scrollbar */
@@ -172,7 +198,7 @@ input, textarea, select {
   background: var(--accent-primary);
 }
 
-/* Respect Reduced Motion Preferences */
+/* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

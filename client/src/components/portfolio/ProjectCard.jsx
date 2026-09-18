@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { ExternalLink, Github, Info, Trash2, Loader2 } from 'lucide-react';
+import { ExternalLink, Github, Info, Trash2, Loader2, CheckCircle2 } from 'lucide-react';
 
 const ProjectCard = ({ project, onSelect, onDelete }) => {
-  const { _id, title, description, image, technologies, category, githubUrl, liveUrl } = project;
+  const { _id, title, description, image, technologies = [], category, githubUrl, liveUrl, features = [] } = project;
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleDelete = async (e) => {
     e.stopPropagation();
@@ -23,6 +24,8 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
     <div
       className="glass-card"
       onClick={() => onSelect(project)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -32,25 +35,31 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
         cursor: 'pointer'
       }}
     >
-      {/* Project Image */}
-      <div style={{ position: 'relative', width: '100%', height: '200px', overflow: 'hidden', backgroundColor: 'var(--bg-secondary)' }}>
+      {/* Project Cover Image */}
+      <div style={{ position: 'relative', width: '100%', height: '210px', overflow: 'hidden', backgroundColor: 'var(--bg-secondary)' }}>
         <img
           src={image || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800'}
           alt={title}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform var(--transition-slow)' }}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+            transition: 'transform var(--transition-slow)'
+          }}
         />
         <span
           style={{
             position: 'absolute',
             top: '12px',
             right: '12px',
-            padding: '0.25rem 0.75rem',
-            backgroundColor: 'var(--bg-glass)',
-            backdropFilter: 'blur(8px)',
+            padding: '0.3rem 0.8rem',
+            backgroundColor: 'rgba(11, 16, 32, 0.85)',
+            backdropFilter: 'blur(10px)',
             borderRadius: 'var(--radius-full)',
             fontSize: '0.75rem',
             fontWeight: '600',
-            color: 'var(--text-primary)',
+            color: 'var(--accent-secondary)',
             border: '1px solid var(--border-color)'
           }}
         >
@@ -58,9 +67,9 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
         </span>
       </div>
 
-      {/* Card Content */}
+      {/* Card Body */}
       <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
-        <h3 style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.75rem' }}>
+        <h3 style={{ fontSize: '1.3rem', fontWeight: '700', marginBottom: '0.6rem', letterSpacing: '-0.01em' }}>
           {title}
         </h3>
 
@@ -68,7 +77,21 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
           {description}
         </p>
 
-        {/* Tech Stack Pills */}
+        {/* Key Features Bullet Highlights */}
+        {features && features.length > 0 && (
+          <div style={{ marginBottom: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            {features.slice(0, 2).map((feat, idx) => (
+              <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.45rem', fontSize: '0.825rem', color: 'var(--text-secondary)' }}>
+                <CheckCircle2 size={15} color="var(--status-success)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' }}>
+                  {feat}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Tech Stack Chips */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1.5rem' }}>
           {technologies.map((tech, idx) => (
             <span
@@ -76,11 +99,12 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
               style={{
                 fontSize: '0.75rem',
                 fontFamily: 'var(--font-mono)',
-                padding: '0.2rem 0.5rem',
+                fontWeight: '500',
+                padding: '0.2rem 0.55rem',
                 backgroundColor: 'rgba(99, 102, 241, 0.08)',
                 color: 'var(--accent-primary)',
                 borderRadius: 'var(--radius-sm)',
-                border: '1px solid rgba(99, 102, 241, 0.15)'
+                border: '1px solid rgba(99, 102, 241, 0.18)'
               }}
             >
               {tech}
@@ -88,8 +112,8 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
           ))}
         </div>
 
-        {/* Links & Actions (Details & Delete Button) */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '1rem', borderTop: '1px solid var(--border-color)' }}>
+        {/* Card Footer Launch Links */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '1rem', borderTop: '1px solid var(--border-color)', marginTop: 'auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             {githubUrl && (
               <a
@@ -97,11 +121,19 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                aria-label="Source Code"
-                title="View GitHub Repository"
-                style={{ color: 'var(--text-secondary)', transition: 'color var(--transition-fast)' }}
+                aria-label="GitHub Repository"
+                title="Open GitHub Repository"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.35rem',
+                  fontSize: '0.85rem',
+                  fontWeight: '600',
+                  color: 'var(--text-secondary)',
+                  transition: 'color var(--transition-fast)'
+                }}
               >
-                <Github size={18} />
+                <Github size={17} /> Source
               </a>
             )}
             {liveUrl && (
@@ -110,34 +142,39 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                aria-label="Live Preview"
-                title="Open Live Project / Demo"
-                style={{ color: 'var(--text-secondary)', transition: 'color var(--transition-fast)' }}
+                aria-label="Live Demo Website"
+                title="Open Live Website / Demo"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.35rem',
+                  fontSize: '0.85rem',
+                  fontWeight: '600',
+                  color: 'var(--accent-secondary)',
+                  transition: 'color var(--transition-fast)'
+                }}
               >
-                <ExternalLink size={18} />
+                <ExternalLink size={17} /> Live Demo
               </a>
             )}
 
-            {/* Delete Button */}
+            {/* Delete Project (Admin Only) */}
             {onDelete && (
               <button
                 onClick={handleDelete}
                 disabled={isDeleting}
                 aria-label="Delete project"
-                title="Delete project from portfolio"
+                title="Delete project"
                 style={{
                   color: 'var(--status-error)',
                   padding: '0.2rem',
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '0.25rem',
-                  fontSize: '0.8rem',
-                  fontWeight: '600',
                   opacity: isDeleting ? 0.5 : 0.85,
                   transition: 'opacity var(--transition-fast)'
                 }}
               >
-                {isDeleting ? <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} /> : <Trash2 size={17} />}
+                {isDeleting ? <Loader2 size={15} style={{ animation: 'spin 1s linear infinite' }} /> : <Trash2 size={16} />}
               </button>
             )}
           </div>
@@ -147,7 +184,7 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.35rem',
+              gap: '0.3rem',
               fontSize: '0.85rem',
               fontWeight: '600',
               color: 'var(--accent-primary)'

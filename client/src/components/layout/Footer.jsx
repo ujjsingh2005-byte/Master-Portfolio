@@ -1,42 +1,121 @@
 import React from 'react';
-import { ArrowUp, Github, Linkedin, Twitter, ShieldCheck, Lock } from 'lucide-react';
+import { ArrowUp, Github, Linkedin, Twitter, ShieldCheck, Lock, Code2 } from 'lucide-react';
 
 const Footer = ({ profile, onOpenAdminLogin, isAdmin }) => {
   const social = profile?.socialLinks || {};
   const currentYear = new Date().getFullYear();
+
+  const githubUrl = social.github || 'https://github.com/ujjsingh2005-byte';
+  const linkedinUrl = social.linkedin || 'https://linkedin.com/in/ujjsingh2005';
+  const twitterUrl = social.twitter || '';
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <footer style={{ borderTop: '1px solid var(--border-color)', backgroundColor: 'var(--bg-primary)', padding: '3rem 0 2rem 0' }}>
+    <footer style={{ borderTop: '1px solid var(--border-color)', backgroundColor: 'var(--bg-primary)', padding: '3.5rem 0 2rem 0', position: 'relative' }}>
       <div className="container">
         
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '1.5rem', marginBottom: '2rem' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '1.5rem', marginBottom: '2.5rem' }}>
           <div>
-            <span style={{ fontSize: '1.4rem', fontWeight: '800' }} className="text-gradient">
-              PortfolioPro
-            </span>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', marginTop: '0.25rem' }}>
-              Full-Stack Software Engineering Portfolio
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.35rem' }}>
+              <Code2 size={22} color="var(--accent-primary)" />
+              <span style={{ fontSize: '1.35rem', fontWeight: '800', fontFamily: 'var(--font-heading)', color: 'var(--text-primary)' }}>
+                Ujjwal Singh<span style={{ color: 'var(--accent-primary)' }}>.dev</span>
+              </span>
+            </div>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
+              Full-Stack Software Engineer • B.Tech CSE
             </p>
           </div>
 
           {/* Social Links */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-            {social.github && (
-              <a href={social.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" style={{ color: 'var(--text-secondary)', transition: 'color var(--transition-fast)' }}>
+            {githubUrl && (
+              <a
+                href={githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                style={{
+                  color: 'var(--text-secondary)',
+                  padding: '0.6rem',
+                  borderRadius: 'var(--radius-md)',
+                  backgroundColor: 'var(--bg-card)',
+                  border: '1px solid var(--border-color)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all var(--transition-fast)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = 'var(--accent-primary)';
+                  e.currentTarget.style.borderColor = 'var(--border-active)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = 'var(--text-secondary)';
+                  e.currentTarget.style.borderColor = 'var(--border-color)';
+                }}
+              >
                 <Github size={20} />
               </a>
             )}
-            {social.linkedin && (
-              <a href={social.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style={{ color: 'var(--text-secondary)', transition: 'color var(--transition-fast)' }}>
+            {linkedinUrl && (
+              <a
+                href={linkedinUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                style={{
+                  color: 'var(--text-secondary)',
+                  padding: '0.6rem',
+                  borderRadius: 'var(--radius-md)',
+                  backgroundColor: 'var(--bg-card)',
+                  border: '1px solid var(--border-color)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all var(--transition-fast)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = 'var(--accent-primary)';
+                  e.currentTarget.style.borderColor = 'var(--border-active)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = 'var(--text-secondary)';
+                  e.currentTarget.style.borderColor = 'var(--border-color)';
+                }}
+              >
                 <Linkedin size={20} />
               </a>
             )}
-            {social.twitter && (
-              <a href={social.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter" style={{ color: 'var(--text-secondary)', transition: 'color var(--transition-fast)' }}>
+            {twitterUrl && (
+              <a
+                href={twitterUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Twitter"
+                style={{
+                  color: 'var(--text-secondary)',
+                  padding: '0.6rem',
+                  borderRadius: 'var(--radius-md)',
+                  backgroundColor: 'var(--bg-card)',
+                  border: '1px solid var(--border-color)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all var(--transition-fast)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = 'var(--accent-primary)';
+                  e.currentTarget.style.borderColor = 'var(--border-active)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = 'var(--text-secondary)';
+                  e.currentTarget.style.borderColor = 'var(--border-color)';
+                }}
+              >
                 <Twitter size={20} />
               </a>
             )}
@@ -46,17 +125,29 @@ const Footer = ({ profile, onOpenAdminLogin, isAdmin }) => {
           <button
             onClick={scrollToTop}
             aria-label="Scroll to top"
+            title="Back to Top"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: '40px',
-              height: '40px',
+              width: '42px',
+              height: '42px',
               borderRadius: 'var(--radius-full)',
               backgroundColor: 'var(--bg-card)',
               border: '1px solid var(--border-color)',
               color: 'var(--text-primary)',
+              cursor: 'pointer',
               transition: 'all var(--transition-fast)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'var(--accent-primary)';
+              e.currentTarget.style.color = 'var(--accent-primary)';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border-color)';
+              e.currentTarget.style.color = 'var(--text-primary)';
+              e.currentTarget.style.transform = 'none';
             }}
           >
             <ArrowUp size={18} />
@@ -65,7 +156,7 @@ const Footer = ({ profile, onOpenAdminLogin, isAdmin }) => {
 
         <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
           <div>
-            &copy; {currentYear} {profile?.name || 'Ujjwal Singh'}. Built with React, Vite, Node.js, Express & MongoDB. All rights reserved.
+            &copy; {currentYear} Ujjwal Singh. Built with passion and code. All rights reserved.
           </div>
 
           <div>
@@ -104,3 +195,4 @@ const Footer = ({ profile, onOpenAdminLogin, isAdmin }) => {
 };
 
 export default Footer;
+

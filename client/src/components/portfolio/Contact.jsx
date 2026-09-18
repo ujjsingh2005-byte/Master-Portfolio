@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SectionHeader from '../common/SectionHeader';
-import { Send, CheckCircle2, AlertCircle, Loader2, Mail, MapPin } from 'lucide-react';
+import { Send, CheckCircle2, AlertCircle, Loader2, Mail, MapPin, MessageSquare, Phone } from 'lucide-react';
 import { sendContactMessage } from '../../services/api';
 
 const Contact = ({ profile }) => {
@@ -69,69 +69,75 @@ const Contact = ({ profile }) => {
     }
   };
 
+  const contactEmail = profile?.email || 'ujjsingh203@gmail.com';
+  const contactLocation = profile?.location || 'AKTU, Lucknow / Noida, UP, India';
+
   return (
-    <section id="contact" className="section" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+    <section id="contact" className="section" style={{ backgroundColor: 'var(--bg-secondary)', position: 'relative' }}>
       <div className="container">
         <SectionHeader
-          badge="Let's Connect"
-          title="Get In Touch"
-          subtitle="Have a question, project proposal, or opportunity? Drop me a message below!"
+          badge="Contact & Connect"
+          title="Let's build something meaningful."
+          subtitle="Have an engineering opportunity, custom project proposal, or technical question? Drop me a direct message below!"
         />
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '3rem', alignItems: 'start' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: '2.5rem', alignItems: 'start' }}>
           
           {/* Left Column: Contact Info Cards */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <div className="glass-card" style={{ padding: '1.75rem' }}>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '1.25rem' }}>
-                Contact Information
+            <div className="glass-card" style={{ padding: '2rem', borderTop: '2px solid var(--accent-primary)' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: '800', marginBottom: '1.5rem', color: 'var(--text-primary)' }}>
+                Contact Details
               </h3>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                  <div style={{ padding: '0.6rem', borderRadius: 'var(--radius-sm)', backgroundColor: 'rgba(99, 102, 241, 0.15)', color: 'var(--accent-primary)' }}>
-                    <Mail size={20} />
+                  <div style={{ padding: '0.75rem', borderRadius: 'var(--radius-md)', backgroundColor: 'rgba(99, 102, 241, 0.15)', color: 'var(--accent-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Mail size={22} />
                   </div>
                   <div>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'block' }}>Email Address</span>
-                    <a href={`mailto:${profile?.email || 'alex.morgan.dev@example.com'}`} style={{ fontWeight: '600', color: 'var(--text-primary)' }}>
-                      {profile?.email || 'alex.morgan.dev@example.com'}
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'block', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Email Address</span>
+                    <a href={`mailto:${contactEmail}`} style={{ fontWeight: '600', color: 'var(--text-primary)', fontSize: '1.05rem', wordBreak: 'break-all' }}>
+                      {contactEmail}
                     </a>
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                  <div style={{ padding: '0.6rem', borderRadius: 'var(--radius-sm)', backgroundColor: 'rgba(6, 182, 212, 0.15)', color: 'var(--accent-secondary)' }}>
-                    <MapPin size={20} />
+                  <div style={{ padding: '0.75rem', borderRadius: 'var(--radius-md)', backgroundColor: 'rgba(6, 182, 212, 0.15)', color: 'var(--accent-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <MapPin size={22} />
                   </div>
                   <div>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'block' }}>Location</span>
-                    <span style={{ fontWeight: '600', color: 'var(--text-primary)' }}>
-                      {profile?.location || 'San Francisco, CA'}
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'block', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Location</span>
+                    <span style={{ fontWeight: '600', color: 'var(--text-primary)', fontSize: '1rem' }}>
+                      {contactLocation}
                     </span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="glass-card" style={{ padding: '1.75rem' }}>
-              <h4 style={{ fontSize: '1.05rem', fontWeight: '700', marginBottom: '0.5rem' }}>
-                Looking for a full-stack engineer?
-              </h4>
+            <div className="glass-card" style={{ padding: '2rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
+                <MessageSquare size={20} color="var(--accent-primary)" />
+                <h4 style={{ fontSize: '1.05rem', fontWeight: '700', color: 'var(--text-primary)' }}>
+                  Recruitment & Freelance
+                </h4>
+              </div>
               <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-                I am actively open to full-time engineering roles, freelance opportunities, and collaborative technical projects.
+                I am actively seeking full-time Software Engineering roles, full-stack developer internships, and technical contract engagements.
               </p>
             </div>
           </div>
 
           {/* Right Column: Contact Form */}
-          <div className="glass-card" style={{ padding: '2.25rem' }}>
+          <div className="glass-card" style={{ padding: '2.25rem', borderTop: '2px solid var(--accent-secondary)' }}>
             {status === 'success' ? (
               <div style={{ textAlign: 'center', padding: '2rem 0' }}>
-                <CheckCircle2 size={48} color="var(--status-success)" style={{ margin: '0 auto 1rem auto' }} />
-                <h3 style={{ fontSize: '1.5rem', fontWeight: '800', marginBottom: '0.5rem' }}>Message Sent!</h3>
-                <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
-                  Thank you for reaching out. I have received your message and will respond as soon as possible.
+                <CheckCircle2 size={52} color="var(--status-success)" style={{ margin: '0 auto 1rem auto' }} />
+                <h3 style={{ fontSize: '1.5rem', fontWeight: '800', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Message Sent Successfully!</h3>
+                <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', lineHeight: 1.6 }}>
+                  Thank you for reaching out. I have received your message and will respond to your email as soon as possible.
                 </p>
                 <button
                   onClick={() => setStatus('idle')}
@@ -161,7 +167,7 @@ const Contact = ({ profile }) => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    placeholder="John Doe"
+                    placeholder="Enter your name"
                     disabled={status === 'loading'}
                     style={{
                       width: '100%',
@@ -169,7 +175,8 @@ const Contact = ({ profile }) => {
                       backgroundColor: 'var(--bg-primary)',
                       border: fieldErrors.name ? '1px solid var(--status-error)' : '1px solid var(--border-color)',
                       borderRadius: 'var(--radius-md)',
-                      color: 'var(--text-primary)'
+                      color: 'var(--text-primary)',
+                      fontSize: '0.95rem'
                     }}
                   />
                   {fieldErrors.name && <span style={{ fontSize: '0.8rem', color: 'var(--status-error)', marginTop: '0.25rem', display: 'block' }}>{fieldErrors.name}</span>}
@@ -186,7 +193,7 @@ const Contact = ({ profile }) => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="john@example.com"
+                    placeholder="name@company.com"
                     disabled={status === 'loading'}
                     style={{
                       width: '100%',
@@ -194,7 +201,8 @@ const Contact = ({ profile }) => {
                       backgroundColor: 'var(--bg-primary)',
                       border: fieldErrors.email ? '1px solid var(--status-error)' : '1px solid var(--border-color)',
                       borderRadius: 'var(--radius-md)',
-                      color: 'var(--text-primary)'
+                      color: 'var(--text-primary)',
+                      fontSize: '0.95rem'
                     }}
                   />
                   {fieldErrors.email && <span style={{ fontSize: '0.8rem', color: 'var(--status-error)', marginTop: '0.25rem', display: 'block' }}>{fieldErrors.email}</span>}
@@ -211,7 +219,7 @@ const Contact = ({ profile }) => {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    placeholder="Project Inquiry / Job Opportunity"
+                    placeholder="Engineering Role / Project Proposal"
                     disabled={status === 'loading'}
                     style={{
                       width: '100%',
@@ -219,7 +227,8 @@ const Contact = ({ profile }) => {
                       backgroundColor: 'var(--bg-primary)',
                       border: fieldErrors.subject ? '1px solid var(--status-error)' : '1px solid var(--border-color)',
                       borderRadius: 'var(--radius-md)',
-                      color: 'var(--text-primary)'
+                      color: 'var(--text-primary)',
+                      fontSize: '0.95rem'
                     }}
                   />
                   {fieldErrors.subject && <span style={{ fontSize: '0.8rem', color: 'var(--status-error)', marginTop: '0.25rem', display: 'block' }}>{fieldErrors.subject}</span>}
@@ -236,7 +245,7 @@ const Contact = ({ profile }) => {
                     rows="5"
                     value={formData.message}
                     onChange={handleChange}
-                    placeholder="Hello! I'd like to discuss a project..."
+                    placeholder="Write your message here..."
                     disabled={status === 'loading'}
                     style={{
                       width: '100%',
@@ -245,6 +254,7 @@ const Contact = ({ profile }) => {
                       border: fieldErrors.message ? '1px solid var(--status-error)' : '1px solid var(--border-color)',
                       borderRadius: 'var(--radius-md)',
                       color: 'var(--text-primary)',
+                      fontSize: '0.95rem',
                       resize: 'vertical'
                     }}
                   />
@@ -260,7 +270,7 @@ const Contact = ({ profile }) => {
                 >
                   {status === 'loading' ? (
                     <>
-                      <Loader2 size={18} style={{ animation: 'spin 1s linear infinite' }} /> Sending...
+                      <Loader2 size={18} style={{ animation: 'spin 1s linear infinite' }} /> Sending Message...
                     </>
                   ) : (
                     <>
@@ -279,7 +289,7 @@ const Contact = ({ profile }) => {
 
       <style>{`
         @media (max-width: 868px) {
-          #contact div[style*="grid-template-columns: 1fr 1.5fr"] {
+          #contact div[style*="grid-template-columns"] {
             grid-template-columns: 1fr !important;
           }
         }
@@ -289,3 +299,4 @@ const Contact = ({ profile }) => {
 };
 
 export default Contact;
+

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ExternalLink, ShieldCheck, Plus, Trash2, Loader2, Award, Database, Server, Code, FileBadge, Cpu, X, Eye } from 'lucide-react';
+import { ExternalLink, ShieldCheck, Plus, Trash2, Loader2, Award, Database, Server, Code, FileBadge, Cpu, X, Eye, CheckCircle } from 'lucide-react';
 import AddCertificationModal from './AddCertificationModal';
 import { deleteCertification } from '../../services/api';
 
@@ -13,10 +13,24 @@ const iconMap = {
   Cpu: Cpu
 };
 
-const defaultCertImages = {
-  "AI Tools & Claude Workshop": "/certificates/be10x_ai_tools_certificate.jpg",
-  "IBM SkillsBuild AI Automation & Intelligent Solutions Internship": "/certificates/ibm_skillsbuild_certificate.jpg",
-  "HackIndia 2026 - Web3 & AI Hackathon": "/certificates/hackindia_2026_certificate.jpg"
+const getCertImageUrl = (cert) => {
+  if (cert.certificateUrl && cert.certificateUrl !== '#' && cert.certificateUrl !== '') {
+    return cert.certificateUrl;
+  }
+  const name = (cert.name || '').toLowerCase();
+  if (name.includes('catalyst') || name.includes('geeksfor') || name.includes('gfg')) {
+    return '/certificates/catalysthack_gfg_certificate.jpg';
+  }
+  if (name.includes('be10x') || name.includes('claude') || name.includes('ai tools')) {
+    return '/certificates/be10x_ai_tools_certificate.jpg';
+  }
+  if (name.includes('ibm') || name.includes('skillsbuild')) {
+    return '/certificates/ibm_skillsbuild_certificate.jpg';
+  }
+  if (name.includes('hackindia')) {
+    return '/certificates/hackindia_2026_certificate.jpg';
+  }
+  return null;
 };
 
 const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
@@ -42,25 +56,17 @@ const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
   };
 
   const handleVerifyClick = (e, cert) => {
-    const imgUrl = cert.certificateUrl && cert.certificateUrl !== '#'
-      ? cert.certificateUrl
-      : defaultCertImages[cert.name];
+    e.preventDefault();
+    const imgUrl = getCertImageUrl(cert);
 
-    if (imgUrl && imgUrl !== '#') {
+    if (imgUrl) {
       if (imgUrl.startsWith('http://') || imgUrl.startsWith('https://')) {
         window.open(imgUrl, '_blank', 'noopener,noreferrer');
       } else {
-        e.preventDefault();
         setPreviewCert({ ...cert, imageUrl: imgUrl });
       }
     } else {
-      e.preventDefault();
-      const fallbackImg = defaultCertImages[cert.name];
-      if (fallbackImg) {
-        setPreviewCert({ ...cert, imageUrl: fallbackImg });
-      } else {
-        alert(`Verification details for "${cert.name}" (${cert.organization}) are on record.`);
-      }
+      alert(`Verification details for "${cert.name}" (${cert.organization}) are verified on record.`);
     }
   };
 
@@ -69,7 +75,7 @@ const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
       <div className="container">
         
         {/* Section Header with Add Action */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', gap: '1rem' }}>
           <div>
             <span
               style={{
@@ -86,10 +92,10 @@ const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
                 borderRadius: 'var(--radius-full)'
               }}
             >
-              Verified Credentials
+              Verified Qualifications
             </span>
-            <h2 style={{ fontSize: '2.25rem', fontWeight: '800', tracking: '-0.025em' }}>
-              Certifications & Badges
+            <h2 style={{ fontSize: '2.25rem', fontWeight: '800', letterSpacing: '-0.025em' }}>
+              Certifications & Hackathons
             </h2>
           </div>
 
@@ -97,15 +103,15 @@ const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
             <button
               onClick={() => setIsAddModalOpen(true)}
               className="btn-primary"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
             >
               <Plus size={18} /> Add Certification
             </button>
           )}
         </div>
 
-        <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', marginBottom: '2.5rem', fontSize: '1.05rem' }}>
-          Industry qualifications and specialized technical certifications.
+        <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', marginBottom: '2.5rem', fontSize: '1.05rem', lineHeight: 1.6 }}>
+          Industry-recognized credentials, specialized technical workshops, and national hackathon achievements.
         </p>
 
         {certifications.length === 0 ? (
@@ -124,24 +130,25 @@ const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
             )}
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.5rem' }}>
             {certifications.map((cert, idx) => {
               const CertIcon = iconMap[cert.icon] || ShieldCheck;
               const identifier = cert._id || cert.name || idx;
               const isDeletingThis = deletingId === identifier;
+              const hasImage = !!getCertImageUrl(cert);
 
               return (
-                <div key={identifier} className="glass-card" style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div key={identifier} className="glass-card" style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative', overflow: 'hidden', borderTop: '2px solid rgba(99, 102, 241, 0.4)' }}>
                   
                   <div>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                      <div style={{ padding: '0.6rem', borderRadius: 'var(--radius-sm)', backgroundColor: 'rgba(16, 185, 129, 0.12)', color: 'var(--status-success)' }}>
-                        <CertIcon size={22} />
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+                      <div style={{ padding: '0.65rem', borderRadius: 'var(--radius-md)', backgroundColor: 'rgba(99, 102, 241, 0.12)', color: 'var(--accent-primary)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <CertIcon size={24} />
                       </div>
 
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: '500' }}>
-                          Issued {cert.date}
+                        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: '500', backgroundColor: 'var(--bg-primary)', padding: '0.25rem 0.65rem', borderRadius: 'var(--radius-full)', border: '1px solid var(--border-color)' }}>
+                          {cert.date}
                         </span>
 
                         {/* Delete Certification Button */}
@@ -158,7 +165,9 @@ const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
                               alignItems: 'center',
                               opacity: isDeletingThis ? 0.4 : 0.75,
                               transition: 'opacity var(--transition-fast)',
-                              cursor: 'pointer'
+                              cursor: 'pointer',
+                              background: 'none',
+                              border: 'none'
                             }}
                           >
                             {isDeletingThis ? <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} /> : <Trash2 size={17} />}
@@ -167,34 +176,38 @@ const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
                       </div>
                     </div>
 
-                    <h3 style={{ fontSize: '1.15rem', fontWeight: '700', marginBottom: '0.35rem' }}>
+                    <h3 style={{ fontSize: '1.15rem', fontWeight: '700', marginBottom: '0.4rem', color: 'var(--text-primary)', lineHeight: 1.4 }}>
                       {cert.name}
                     </h3>
 
-                    <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '1.25rem' }}>
+                    <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '1.25rem', fontWeight: '500' }}>
                       {cert.organization}
                     </p>
                   </div>
 
-                  <button
-                    onClick={(e) => handleVerifyClick(e, cert)}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.4rem',
-                      fontSize: '0.85rem',
-                      fontWeight: '600',
-                      color: 'var(--accent-primary)',
-                      paddingTop: '0.75rem',
-                      borderTop: '1px solid var(--border-color)',
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      textAlign: 'left'
-                    }}
-                  >
-                    Verify Credential <ExternalLink size={15} />
-                  </button>
+                  <div style={{ paddingTop: '1rem', borderTop: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <button
+                      onClick={(e) => handleVerifyClick(e, cert)}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.4rem',
+                        fontSize: '0.85rem',
+                        fontWeight: '600',
+                        color: hasImage ? 'var(--accent-primary)' : 'var(--text-secondary)',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: 0
+                      }}
+                    >
+                      {hasImage ? (
+                        <>View Verified Document <Eye size={15} /></>
+                      ) : (
+                        <>Verified Credential <CheckCircle size={15} color="var(--status-success)" /></>
+                      )}
+                    </button>
+                  </div>
 
                 </div>
               );
@@ -236,13 +249,13 @@ const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', paddingBottom: '0.75rem', borderBottom: '1px solid var(--border-color)' }}>
                 <div>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: '800' }}>{previewCert.name}</h3>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: '800', color: 'var(--text-primary)' }}>{previewCert.name}</h3>
                   <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Issued by {previewCert.organization} • {previewCert.date}</span>
                 </div>
 
                 <button
                   onClick={() => setPreviewCert(null)}
-                  style={{ color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer' }}
+                  style={{ color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem' }}
                   aria-label="Close modal"
                 >
                   <X size={24} />
@@ -265,7 +278,7 @@ const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
                   className="btn-primary"
                   style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem' }}
                 >
-                  <Eye size={16} /> Open Full Size Image
+                  <ExternalLink size={16} /> Open Full Size Image
                 </a>
               </div>
             </div>
@@ -285,3 +298,4 @@ const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
 };
 
 export default Certifications;
+

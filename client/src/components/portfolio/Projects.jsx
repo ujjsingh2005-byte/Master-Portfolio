@@ -5,7 +5,7 @@ import ProjectModal from './ProjectModal';
 import AddProjectModal from './AddProjectModal';
 import Loader from '../common/Loader';
 import ErrorMessage from '../common/ErrorMessage';
-import { Search, RefreshCw, Plus } from 'lucide-react';
+import { Search, RefreshCw, Plus, FolderGit2 } from 'lucide-react';
 import { getProjects, deleteProject } from '../../services/api';
 
 const categories = ['All', 'Full-Stack', 'AI & Web', 'Frontend', 'Backend'];
@@ -53,27 +53,14 @@ const Projects = ({ isAdmin }) => {
     <section id="projects" className="section" style={{ backgroundColor: 'var(--bg-secondary)' }}>
       <div className="container">
         
+        {/* Header Bar */}
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
           <div>
-            <span
-              style={{
-                display: 'inline-block',
-                padding: '0.35rem 1rem',
-                marginBottom: '0.75rem',
-                fontSize: '0.85rem',
-                fontWeight: '600',
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase',
-                color: 'var(--accent-primary)',
-                backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                border: '1px solid var(--border-active)',
-                borderRadius: 'var(--radius-full)'
-              }}
-            >
-              Featured Engineering Works
+            <span className="badge-pill" style={{ marginBottom: '0.75rem' }}>
+              <FolderGit2 size={14} /> Production Showcase
             </span>
-            <h2 style={{ fontSize: '2.25rem', fontWeight: '800', tracking: '-0.025em' }}>
-              Projects Showcase
+            <h2 style={{ fontSize: '2.5rem', fontWeight: '800', letterSpacing: '-0.025em' }}>
+              Featured Projects
             </h2>
           </div>
 
@@ -89,74 +76,70 @@ const Projects = ({ isAdmin }) => {
           )}
         </div>
 
-        <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', marginBottom: '2.5rem', fontSize: '1.05rem' }}>
-          Explore full-stack software applications built with modern frontend frameworks, backend microservices, and databases.
+        <p style={{ color: 'var(--text-secondary)', maxWidth: '640px', marginBottom: '2.5rem', fontSize: '1.05rem', lineHeight: 1.6 }}>
+          Production-grade full-stack applications, intelligent AI platforms, and secure web microservices deployed live.
         </p>
 
-        {/* Search & Category Filter Control Bar */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', marginBottom: '2.5rem' }}>
+        {/* Filter & Search Bar */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2.5rem' }}>
           
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center', justifyContent: 'space-between' }}>
-            
-            {/* Search Input */}
-            <div style={{ position: 'relative', flex: '1', minWidth: '260px', maxWidth: '420px' }}>
-              <Search size={18} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-              <input
-                type="text"
-                placeholder="Search projects by title or keyword..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '0.65rem 1rem 0.65rem 2.6rem',
-                  backgroundColor: 'var(--bg-card)',
-                  border: '1px solid var(--border-color)',
-                  borderRadius: 'var(--radius-full)',
-                  color: 'var(--text-primary)',
-                  fontSize: '0.925rem'
-                }}
-              />
-            </div>
+          {/* Search Box */}
+          <div style={{ position: 'relative', flex: '1', minWidth: '260px', maxWidth: '420px' }}>
+            <Search size={18} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+            <input
+              type="text"
+              placeholder="Search by title, tech stack or keywords..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '0.65rem 1rem 0.65rem 2.6rem',
+                backgroundColor: 'var(--bg-card)',
+                border: '1px solid var(--border-color)',
+                borderRadius: 'var(--radius-full)',
+                color: 'var(--text-primary)',
+                fontSize: '0.9rem'
+              }}
+            />
+          </div>
 
-            {/* Category Filter Buttons */}
-            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-              {categories.map((cat) => {
-                const isActive = selectedCategory === cat;
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    style={{
-                      padding: '0.5rem 1.1rem',
-                      borderRadius: 'var(--radius-full)',
-                      fontSize: '0.85rem',
-                      fontWeight: '600',
-                      border: isActive ? '1px solid var(--accent-primary)' : '1px solid var(--border-color)',
-                      backgroundColor: isActive ? 'var(--accent-primary)' : 'var(--bg-card)',
-                      color: isActive ? '#ffffff' : 'var(--text-secondary)',
-                      transition: 'all var(--transition-fast)'
-                    }}
-                  >
-                    {cat}
-                  </button>
-                );
-              })}
-            </div>
-
+          {/* Category Filter Pills */}
+          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+            {categories.map((cat) => {
+              const isActive = selectedCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  style={{
+                    padding: '0.5rem 1.1rem',
+                    borderRadius: 'var(--radius-full)',
+                    fontSize: '0.85rem',
+                    fontWeight: '600',
+                    border: isActive ? '1px solid var(--accent-primary)' : '1px solid var(--border-color)',
+                    backgroundColor: isActive ? 'var(--accent-primary)' : 'var(--bg-card)',
+                    color: isActive ? '#ffffff' : 'var(--text-secondary)',
+                    transition: 'all var(--transition-fast)'
+                  }}
+                >
+                  {cat}
+                </button>
+              );
+            })}
           </div>
 
         </div>
 
         {/* Content Render States */}
-        {loading && <Loader message="Fetching projects from REST API..." />}
+        {loading && <Loader message="Fetching live project showcase..." />}
         {error && <ErrorMessage message={error} onRetry={fetchProjectsData} />}
 
         {!loading && !error && projects.length === 0 && (
-          <div style={{ textAlign: 'center', padding: '3rem 0', color: 'var(--text-secondary)' }}>
-            <p style={{ fontSize: '1.1rem' }}>No projects match your search query or filter criteria.</p>
+          <div className="glass-card" style={{ textAlign: 'center', padding: '4rem 2rem', color: 'var(--text-secondary)' }}>
+            <p style={{ fontSize: '1.1rem', marginBottom: '1rem' }}>No projects match your search query or filter criteria.</p>
             <button
               onClick={() => { setSearchQuery(''); setSelectedCategory('All'); }}
-              style={{ marginTop: '1rem', color: 'var(--accent-primary)', fontWeight: '600', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
+              className="btn-secondary"
             >
               <RefreshCw size={16} /> Reset Filters
             </button>

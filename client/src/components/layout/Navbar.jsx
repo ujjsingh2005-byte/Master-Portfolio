@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, UserCog } from 'lucide-react';
+import { Menu, UserCog, FileText } from 'lucide-react';
 import ThemeToggle from '../common/ThemeToggle';
 import MobileMenu from './MobileMenu';
 
@@ -8,8 +8,9 @@ const navItems = [
   { label: 'About', href: '#about' },
   { label: 'Skills', href: '#skills' },
   { label: 'Projects', href: '#projects' },
-  { label: 'Education', href: '#education' },
   { label: 'Experience', href: '#experience' },
+  { label: 'Education', href: '#education' },
+  { label: 'Certifications', href: '#certifications' },
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -23,7 +24,7 @@ const Navbar = ({ onOpenSettings, isAdmin }) => {
       setIsScrolled(window.scrollY > 20);
 
       const sections = navItems.map(item => item.label.toLowerCase());
-      const scrollPosition = window.scrollY + 200;
+      const scrollPosition = window.scrollY + 180;
 
       for (const section of sections) {
         const el = document.getElementById(section);
@@ -38,7 +39,7 @@ const Navbar = ({ onOpenSettings, isAdmin }) => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -53,18 +54,31 @@ const Navbar = ({ onOpenSettings, isAdmin }) => {
           zIndex: 900,
           backgroundColor: isScrolled ? 'var(--bg-glass)' : 'transparent',
           backdropFilter: isScrolled ? 'blur(16px)' : 'none',
+          WebkitBackdropFilter: isScrolled ? 'blur(16px)' : 'none',
           borderBottom: isScrolled ? '1px solid var(--border-color)' : '1px solid transparent',
           transition: 'all var(--transition-normal)',
-          padding: '1rem 0'
+          padding: '0.85rem 0'
         }}
       >
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <a href="#home" style={{ fontSize: '1.4rem', fontWeight: '800', tracking: '-0.03em' }} className="text-gradient">
-            PortfolioPro
+          {/* Logo / Brand Name */}
+          <a
+            href="#home"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              fontSize: '1.25rem',
+              fontWeight: '800',
+              letterSpacing: '-0.03em'
+            }}
+          >
+            <span className="text-gradient">Ujjwal Singh</span>
+            <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>.dev</span>
           </a>
 
           {/* Desktop Navigation */}
-          <nav className="desktop-nav" style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+          <nav className="desktop-nav" style={{ display: 'flex', alignItems: 'center', gap: '1.75rem' }}>
             {navItems.map((item) => {
               const sectionId = item.label.toLowerCase();
               const isActive = activeSection === sectionId;
@@ -73,11 +87,12 @@ const Navbar = ({ onOpenSettings, isAdmin }) => {
                   key={item.label}
                   href={item.href}
                   style={{
-                    fontSize: '0.95rem',
-                    fontWeight: isActive ? '600' : '400',
-                    color: isActive ? 'var(--accent-primary)' : 'var(--text-secondary)',
+                    fontSize: '0.9rem',
+                    fontWeight: isActive ? '600' : '500',
+                    color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
                     transition: 'color var(--transition-fast)',
-                    position: 'relative'
+                    position: 'relative',
+                    padding: '0.2rem 0'
                   }}
                 >
                   {item.label}
@@ -85,11 +100,11 @@ const Navbar = ({ onOpenSettings, isAdmin }) => {
                     <span
                       style={{
                         position: 'absolute',
-                        bottom: '-6px',
+                        bottom: '-4px',
                         left: 0,
                         right: 0,
                         height: '2px',
-                        backgroundColor: 'var(--accent-primary)',
+                        background: 'var(--accent-gradient)',
                         borderRadius: 'var(--radius-full)'
                       }}
                     />
@@ -99,8 +114,28 @@ const Navbar = ({ onOpenSettings, isAdmin }) => {
             })}
           </nav>
 
-          {/* Actions (Theme Toggle, Settings & Mobile Menu trigger) */}
+          {/* Actions Right Side */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            {/* Resume Quick Access CTA */}
+            <a
+              href="/resume/Ujjwal_Singh_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-secondary"
+              style={{
+                padding: '0.45rem 0.9rem',
+                fontSize: '0.85rem',
+                borderRadius: 'var(--radius-md)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.35rem'
+              }}
+            >
+              <FileText size={15} color="var(--accent-primary)" />
+              <span className="desktop-only-text">Resume</span>
+            </a>
+
+            {/* Admin Settings Button if authenticated */}
             {isAdmin && (
               <button
                 onClick={() => onOpenSettings && onOpenSettings()}
@@ -110,7 +145,7 @@ const Navbar = ({ onOpenSettings, isAdmin }) => {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '0.4rem',
-                  padding: '0.5rem 0.85rem',
+                  padding: '0.45rem 0.85rem',
                   borderRadius: 'var(--radius-md)',
                   backgroundColor: 'rgba(99, 102, 241, 0.12)',
                   border: '1px solid var(--border-active)',
@@ -121,18 +156,28 @@ const Navbar = ({ onOpenSettings, isAdmin }) => {
                   transition: 'all var(--transition-fast)'
                 }}
               >
-                <UserCog size={18} />
-                <span className="desktop-only-text">Settings</span>
+                <UserCog size={16} />
+                <span className="desktop-only-text">Admin</span>
               </button>
             )}
+
+            {/* Theme Toggle */}
             <ThemeToggle />
+
+            {/* Mobile Hamburger Trigger */}
             <button
               className="mobile-menu-btn"
               onClick={() => setMobileMenuOpen(true)}
               aria-label="Open navigation menu"
-              style={{ color: 'var(--text-primary)', padding: '0.5rem' }}
+              style={{
+                color: 'var(--text-primary)',
+                padding: '0.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
             >
-              <Menu size={24} />
+              <Menu size={22} />
             </button>
           </div>
         </div>
@@ -145,17 +190,17 @@ const Navbar = ({ onOpenSettings, isAdmin }) => {
       />
 
       <style>{`
-        @media (max-width: 868px) {
+        @media (max-width: 960px) {
           .desktop-nav {
             display: none !important;
           }
         }
-        @media (min-width: 869px) {
+        @media (min-width: 961px) {
           .mobile-menu-btn {
             display: none !important;
           }
         }
-        @media (max-width: 500px) {
+        @media (max-width: 540px) {
           .desktop-only-text {
             display: none !important;
           }
