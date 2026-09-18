@@ -1,6 +1,6 @@
 import React from 'react';
 import SectionHeader from '../common/SectionHeader';
-import { Target, Compass, Zap, Code2, GraduationCap, Laptop, Rocket, Award, MapPin, Crosshair } from 'lucide-react';
+import { Target, Compass, Zap, GraduationCap, Laptop, Rocket, Award, MapPin, Crosshair } from 'lucide-react';
 
 const quickFacts = [
   { icon: GraduationCap, title: 'Education', desc: 'B.Tech CSE (AKTU, Lucknow)' },
@@ -29,9 +29,9 @@ const About = ({ profile }) => {
     <section id="about" className="section" style={{ backgroundColor: 'var(--bg-secondary)' }}>
       <div className="container">
         <SectionHeader
-          badge="Background & Story"
+          badge="Background & Mindset"
           title="About Me"
-          subtitle="Discover my engineering journey, technical mindset, and core professional focus."
+          subtitle="Discover my engineering journey, technical foundation, and core professional goals."
         />
 
         {/* 2 Column Layout */}
@@ -39,24 +39,24 @@ const About = ({ profile }) => {
           
           {/* Left Column: Narrative & Goals */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            <div className="glass-card" style={{ padding: '2rem' }}>
+            <div className="glass-card" style={{ padding: '2rem', borderTop: '2px solid var(--accent-emerald)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-                <div style={{ padding: '0.6rem', borderRadius: 'var(--radius-sm)', backgroundColor: 'rgba(99, 102, 241, 0.15)', color: 'var(--accent-primary)' }}>
+                <div style={{ padding: '0.6rem', borderRadius: 'var(--radius-md)', backgroundColor: 'rgba(53, 208, 127, 0.12)', color: 'var(--accent-emerald)' }}>
                   <Compass size={22} />
                 </div>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: '700' }}>Developer Journey</h3>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: 'var(--text-primary)' }}>Developer Journey</h3>
               </div>
               <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: '1rem' }}>
                 {journey}
               </p>
             </div>
 
-            <div className="glass-card" style={{ padding: '2rem' }}>
+            <div className="glass-card" style={{ padding: '2rem', borderTop: '2px solid var(--accent-champagne)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-                <div style={{ padding: '0.6rem', borderRadius: 'var(--radius-sm)', backgroundColor: 'rgba(6, 182, 212, 0.15)', color: 'var(--accent-secondary)' }}>
+                <div style={{ padding: '0.6rem', borderRadius: 'var(--radius-md)', backgroundColor: 'rgba(232, 201, 139, 0.12)', color: 'var(--accent-champagne)' }}>
                   <Target size={22} />
                 </div>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: '700' }}>Career Vision</h3>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: 'var(--text-primary)' }}>Career Vision</h3>
               </div>
               <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: '1rem' }}>
                 {careerGoals}
@@ -66,10 +66,10 @@ const About = ({ profile }) => {
             {/* Coursework & Strengths */}
             <div className="glass-card" style={{ padding: '2rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
-                <div style={{ padding: '0.6rem', borderRadius: 'var(--radius-sm)', backgroundColor: 'rgba(34, 197, 94, 0.15)', color: 'var(--status-success)' }}>
+                <div style={{ padding: '0.6rem', borderRadius: 'var(--radius-md)', backgroundColor: 'rgba(53, 208, 127, 0.12)', color: 'var(--accent-emerald)' }}>
                   <Zap size={22} />
                 </div>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: '700' }}>Relevant Coursework & Strengths</h3>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: 'var(--text-primary)' }}>Relevant Coursework & Strengths</h3>
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem' }}>
                 {strengths.map((item, idx) => (
@@ -94,7 +94,7 @@ const About = ({ profile }) => {
 
           {/* Right Column: Quick Facts Grid */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.5rem' }}>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
               Quick Overview
             </h3>
 
@@ -112,11 +112,11 @@ const About = ({ profile }) => {
                       gap: '0.75rem'
                     }}
                   >
-                    <div style={{ padding: '0.5rem', width: 'fit-content', borderRadius: 'var(--radius-sm)', backgroundColor: 'rgba(99, 102, 241, 0.12)', color: 'var(--accent-primary)' }}>
+                    <div style={{ padding: '0.55rem', width: 'fit-content', borderRadius: 'var(--radius-md)', backgroundColor: 'rgba(53, 208, 127, 0.12)', color: 'var(--accent-emerald)' }}>
                       <IconComponent size={20} />
                     </div>
                     <div>
-                      <h4 style={{ fontSize: '0.95rem', fontWeight: '700', marginBottom: '0.2rem' }}>{fact.title}</h4>
+                      <h4 style={{ fontSize: '0.95rem', fontWeight: '700', marginBottom: '0.2rem', color: 'var(--text-primary)' }}>{fact.title}</h4>
                       <p style={{ fontSize: '0.825rem', color: 'var(--text-secondary)' }}>{fact.desc}</p>
                     </div>
                   </div>
@@ -141,3 +141,4 @@ const About = ({ profile }) => {
 };
 
 export default About;
+

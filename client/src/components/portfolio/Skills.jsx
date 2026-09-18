@@ -46,12 +46,12 @@ const Skills = ({ skills, loading, error, onRetry, isAdmin }) => {
       <div className="container">
         
         {/* Section Header with Add Skill Action */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', gap: '1rem' }}>
           <div>
             <span className="badge-pill" style={{ marginBottom: '0.75rem' }}>
               <Sparkles size={14} /> Technology Stack
             </span>
-            <h2 style={{ fontSize: '2.5rem', fontWeight: '800', letterSpacing: '-0.025em' }}>
+            <h2 style={{ fontSize: '2.5rem', fontWeight: '800', letterSpacing: '-0.025em', color: 'var(--text-primary)' }}>
               Skills & Expertise
             </h2>
           </div>
@@ -61,7 +61,7 @@ const Skills = ({ skills, loading, error, onRetry, isAdmin }) => {
             <button
               onClick={() => setIsAddModalOpen(true)}
               className="btn-primary"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
             >
               <Plus size={18} /> Add Skill
             </button>
@@ -69,7 +69,7 @@ const Skills = ({ skills, loading, error, onRetry, isAdmin }) => {
         </div>
 
         <p style={{ color: 'var(--text-secondary)', maxWidth: '640px', marginBottom: '2.5rem', fontSize: '1.05rem', lineHeight: 1.6 }}>
-          A comprehensive ecosystem of programming languages, full-stack frameworks, database systems, AI tools, and deployment environments.
+          A comprehensive ecosystem of programming languages, full-stack frameworks, database systems, AI tools, and cloud deployment environments.
         </p>
 
         {/* Category Tabs Bar */}
@@ -89,9 +89,9 @@ const Skills = ({ skills, loading, error, onRetry, isAdmin }) => {
                   borderRadius: 'var(--radius-full)',
                   fontSize: '0.875rem',
                   fontWeight: '600',
-                  border: isActive ? '1px solid var(--accent-primary)' : '1px solid var(--border-color)',
-                  backgroundColor: isActive ? 'var(--accent-primary)' : 'var(--bg-card)',
-                  color: isActive ? '#ffffff' : 'var(--text-secondary)',
+                  border: isActive ? '1px solid var(--accent-emerald)' : '1px solid var(--border-color)',
+                  backgroundColor: isActive ? 'var(--accent-emerald)' : 'var(--bg-card)',
+                  color: isActive ? '#0D0F0E' : 'var(--text-secondary)',
                   transition: 'all var(--transition-fast)'
                 }}
               >
@@ -120,14 +120,18 @@ const Skills = ({ skills, loading, error, onRetry, isAdmin }) => {
               
               // Recruiter Badge Color (Core, Experienced, Familiar)
               const prof = skill.proficiency || 'Core';
-              let badgeBg = 'rgba(99, 102, 241, 0.12)';
-              let badgeColor = 'var(--accent-primary)';
+              let badgeBg = 'rgba(53, 208, 127, 0.12)';
+              let badgeColor = 'var(--accent-emerald)';
+              let badgeBorder = '1px solid rgba(53, 208, 127, 0.3)';
+
               if (prof === 'Experienced') {
-                badgeBg = 'rgba(6, 182, 212, 0.12)';
-                badgeColor = 'var(--accent-secondary)';
+                badgeBg = 'rgba(232, 201, 139, 0.12)';
+                badgeColor = 'var(--accent-champagne)';
+                badgeBorder = '1px solid rgba(232, 201, 139, 0.3)';
               } else if (prof === 'Familiar') {
-                badgeBg = 'rgba(148, 163, 184, 0.12)';
+                badgeBg = 'rgba(167, 173, 165, 0.12)';
                 badgeColor = 'var(--text-secondary)';
+                badgeBorder = '1px solid var(--border-color)';
               }
 
               return (
@@ -142,7 +146,7 @@ const Skills = ({ skills, loading, error, onRetry, isAdmin }) => {
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div style={{ padding: '0.5rem', borderRadius: 'var(--radius-sm)', backgroundColor: 'rgba(99, 102, 241, 0.12)', color: 'var(--accent-primary)' }}>
+                    <div style={{ padding: '0.55rem', borderRadius: 'var(--radius-md)', backgroundColor: 'rgba(53, 208, 127, 0.12)', color: 'var(--accent-emerald)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <CategoryIcon size={18} />
                     </div>
 
@@ -151,10 +155,11 @@ const Skills = ({ skills, loading, error, onRetry, isAdmin }) => {
                         style={{
                           fontSize: '0.75rem',
                           fontWeight: '600',
-                          padding: '0.2rem 0.6rem',
+                          padding: '0.2rem 0.65rem',
                           borderRadius: 'var(--radius-full)',
                           backgroundColor: badgeBg,
-                          color: badgeColor
+                          color: badgeColor,
+                          border: badgeBorder
                         }}
                       >
                         {prof}
@@ -173,7 +178,10 @@ const Skills = ({ skills, loading, error, onRetry, isAdmin }) => {
                             display: 'inline-flex',
                             alignItems: 'center',
                             opacity: isDeletingThis ? 0.4 : 0.75,
-                            transition: 'opacity var(--transition-fast)'
+                            transition: 'opacity var(--transition-fast)',
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer'
                           }}
                         >
                           {isDeletingThis ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> : <Trash2 size={15} />}
@@ -183,7 +191,7 @@ const Skills = ({ skills, loading, error, onRetry, isAdmin }) => {
                   </div>
 
                   <div>
-                    <h3 style={{ fontSize: '1.05rem', fontWeight: '700', marginBottom: '0.2rem' }}>
+                    <h3 style={{ fontSize: '1.05rem', fontWeight: '700', marginBottom: '0.2rem', color: 'var(--text-primary)' }}>
                       {skill.name}
                     </h3>
                     <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
@@ -209,3 +217,4 @@ const Skills = ({ skills, loading, error, onRetry, isAdmin }) => {
 };
 
 export default Skills;
+

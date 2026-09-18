@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SectionHeader from '../common/SectionHeader';
-import { Send, CheckCircle2, AlertCircle, Loader2, Mail, MapPin, MessageSquare, Phone } from 'lucide-react';
+import { Send, CheckCircle2, AlertCircle, Loader2, Mail, MapPin, MessageSquare } from 'lucide-react';
 import { sendContactMessage } from '../../services/api';
 
 const Contact = ({ profile }) => {
@@ -85,14 +85,14 @@ const Contact = ({ profile }) => {
           
           {/* Left Column: Contact Info Cards */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <div className="glass-card" style={{ padding: '2rem', borderTop: '2px solid var(--accent-primary)' }}>
+            <div className="glass-card" style={{ padding: '2rem', borderTop: '2px solid var(--accent-emerald)' }}>
               <h3 style={{ fontSize: '1.25rem', fontWeight: '800', marginBottom: '1.5rem', color: 'var(--text-primary)' }}>
                 Contact Details
               </h3>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                  <div style={{ padding: '0.75rem', borderRadius: 'var(--radius-md)', backgroundColor: 'rgba(99, 102, 241, 0.15)', color: 'var(--accent-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ padding: '0.75rem', borderRadius: 'var(--radius-md)', backgroundColor: 'rgba(53, 208, 127, 0.12)', color: 'var(--accent-emerald)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Mail size={22} />
                   </div>
                   <div>
@@ -104,7 +104,7 @@ const Contact = ({ profile }) => {
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                  <div style={{ padding: '0.75rem', borderRadius: 'var(--radius-md)', backgroundColor: 'rgba(6, 182, 212, 0.15)', color: 'var(--accent-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ padding: '0.75rem', borderRadius: 'var(--radius-md)', backgroundColor: 'rgba(232, 201, 139, 0.12)', color: 'var(--accent-champagne)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <MapPin size={22} />
                   </div>
                   <div>
@@ -119,7 +119,7 @@ const Contact = ({ profile }) => {
 
             <div className="glass-card" style={{ padding: '2rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
-                <MessageSquare size={20} color="var(--accent-primary)" />
+                <MessageSquare size={20} color="var(--accent-emerald)" />
                 <h4 style={{ fontSize: '1.05rem', fontWeight: '700', color: 'var(--text-primary)' }}>
                   Recruitment & Freelance
                 </h4>
@@ -131,10 +131,10 @@ const Contact = ({ profile }) => {
           </div>
 
           {/* Right Column: Contact Form */}
-          <div className="glass-card" style={{ padding: '2.25rem', borderTop: '2px solid var(--accent-secondary)' }}>
+          <div className="glass-card" style={{ padding: '2.25rem', borderTop: '2px solid var(--accent-champagne)' }}>
             {status === 'success' ? (
               <div style={{ textAlign: 'center', padding: '2rem 0' }}>
-                <CheckCircle2 size={52} color="var(--status-success)" style={{ margin: '0 auto 1rem auto' }} />
+                <CheckCircle2 size={52} color="var(--accent-emerald)" style={{ margin: '0 auto 1rem auto' }} />
                 <h3 style={{ fontSize: '1.5rem', fontWeight: '800', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Message Sent Successfully!</h3>
                 <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', lineHeight: 1.6 }}>
                   Thank you for reaching out. I have received your message and will respond to your email as soon as possible.
@@ -150,7 +150,7 @@ const Contact = ({ profile }) => {
               <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                 
                 {status === 'error' && (
-                  <div style={{ padding: '0.9rem 1.25rem', backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', borderRadius: 'var(--radius-md)', color: 'var(--status-error)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                  <div style={{ padding: '0.9rem 1.25rem', backgroundColor: 'rgba(248, 113, 113, 0.1)', border: '1px solid rgba(248, 113, 113, 0.3)', borderRadius: 'var(--radius-md)', color: 'var(--status-error)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                     <AlertCircle size={18} />
                     <span>{errorMessage}</span>
                   </div>
@@ -299,4 +299,5 @@ const Contact = ({ profile }) => {
 };
 
 export default Contact;
+
 

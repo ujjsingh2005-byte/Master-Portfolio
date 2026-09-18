@@ -20,9 +20,9 @@ const Footer = ({ profile, onOpenAdminLogin, isAdmin }) => {
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '1.5rem', marginBottom: '2.5rem' }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.35rem' }}>
-              <Code2 size={22} color="var(--accent-primary)" />
+              <Code2 size={22} color="var(--accent-emerald)" />
               <span style={{ fontSize: '1.35rem', fontWeight: '800', fontFamily: 'var(--font-heading)', color: 'var(--text-primary)' }}>
-                Ujjwal Singh<span style={{ color: 'var(--accent-primary)' }}>.dev</span>
+                Ujjwal Singh<span style={{ color: 'var(--accent-emerald)' }}>.dev</span>
               </span>
             </div>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
@@ -50,8 +50,8 @@ const Footer = ({ profile, onOpenAdminLogin, isAdmin }) => {
                   transition: 'all var(--transition-fast)'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.color = 'var(--accent-primary)';
-                  e.currentTarget.style.borderColor = 'var(--border-active)';
+                  e.currentTarget.style.color = 'var(--accent-emerald)';
+                  e.currentTarget.style.borderColor = 'rgba(53, 208, 127, 0.4)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.color = 'var(--text-secondary)';
@@ -79,8 +79,8 @@ const Footer = ({ profile, onOpenAdminLogin, isAdmin }) => {
                   transition: 'all var(--transition-fast)'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.color = 'var(--accent-primary)';
-                  e.currentTarget.style.borderColor = 'var(--border-active)';
+                  e.currentTarget.style.color = 'var(--accent-emerald)';
+                  e.currentTarget.style.borderColor = 'rgba(53, 208, 127, 0.4)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.color = 'var(--text-secondary)';
@@ -108,8 +108,8 @@ const Footer = ({ profile, onOpenAdminLogin, isAdmin }) => {
                   transition: 'all var(--transition-fast)'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.color = 'var(--accent-primary)';
-                  e.currentTarget.style.borderColor = 'var(--border-active)';
+                  e.currentTarget.style.color = 'var(--accent-emerald)';
+                  e.currentTarget.style.borderColor = 'rgba(53, 208, 127, 0.4)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.color = 'var(--text-secondary)';
@@ -140,8 +140,8 @@ const Footer = ({ profile, onOpenAdminLogin, isAdmin }) => {
               transition: 'all var(--transition-fast)'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'var(--accent-primary)';
-              e.currentTarget.style.color = 'var(--accent-primary)';
+              e.currentTarget.style.borderColor = 'var(--accent-emerald)';
+              e.currentTarget.style.color = 'var(--accent-emerald)';
               e.currentTarget.style.transform = 'translateY(-2px)';
             }}
             onMouseLeave={(e) => {
@@ -161,7 +161,7 @@ const Footer = ({ profile, onOpenAdminLogin, isAdmin }) => {
 
           <div>
             {isAdmin ? (
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', color: 'var(--status-success)', fontWeight: '600', fontSize: '0.8rem' }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', color: 'var(--accent-emerald)', fontWeight: '600', fontSize: '0.8rem' }}>
                 <ShieldCheck size={14} /> Admin Mode Active
               </span>
             ) : (
@@ -195,4 +195,5 @@ const Footer = ({ profile, onOpenAdminLogin, isAdmin }) => {
 };
 
 export default Footer;
+
 

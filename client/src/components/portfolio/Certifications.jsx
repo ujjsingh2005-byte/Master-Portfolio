@@ -79,22 +79,24 @@ const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
           <div>
             <span
               style={{
-                display: 'inline-block',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
                 padding: '0.35rem 1rem',
                 marginBottom: '0.75rem',
-                fontSize: '0.85rem',
+                fontSize: '0.8rem',
                 fontWeight: '600',
                 letterSpacing: '0.05em',
                 textTransform: 'uppercase',
-                color: 'var(--accent-primary)',
-                backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                border: '1px solid var(--border-active)',
+                color: 'var(--accent-emerald)',
+                backgroundColor: 'rgba(53, 208, 127, 0.08)',
+                border: '1px solid rgba(53, 208, 127, 0.25)',
                 borderRadius: 'var(--radius-full)'
               }}
             >
-              Verified Qualifications
+              <span className="status-dot" style={{ width: '6px', height: '6px' }} /> Verified Qualifications
             </span>
-            <h2 style={{ fontSize: '2.25rem', fontWeight: '800', letterSpacing: '-0.025em' }}>
+            <h2 style={{ fontSize: '2.25rem', fontWeight: '800', letterSpacing: '-0.025em', color: 'var(--text-primary)' }}>
               Certifications & Hackathons
             </h2>
           </div>
@@ -138,11 +140,11 @@ const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
               const hasImage = !!getCertImageUrl(cert);
 
               return (
-                <div key={identifier} className="glass-card" style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative', overflow: 'hidden', borderTop: '2px solid rgba(99, 102, 241, 0.4)' }}>
+                <div key={identifier} className="glass-card" style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative', overflow: 'hidden', borderTop: '2px solid var(--accent-emerald)' }}>
                   
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
-                      <div style={{ padding: '0.65rem', borderRadius: 'var(--radius-md)', backgroundColor: 'rgba(99, 102, 241, 0.12)', color: 'var(--accent-primary)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <div style={{ padding: '0.65rem', borderRadius: 'var(--radius-md)', backgroundColor: 'rgba(53, 208, 127, 0.12)', color: 'var(--accent-emerald)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
                         <CertIcon size={24} />
                       </div>
 
@@ -194,7 +196,7 @@ const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
                         gap: '0.4rem',
                         fontSize: '0.85rem',
                         fontWeight: '600',
-                        color: hasImage ? 'var(--accent-primary)' : 'var(--text-secondary)',
+                        color: hasImage ? 'var(--accent-emerald)' : 'var(--text-secondary)',
                         background: 'none',
                         border: 'none',
                         cursor: 'pointer',
@@ -204,7 +206,7 @@ const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
                       {hasImage ? (
                         <>View Verified Document <Eye size={15} /></>
                       ) : (
-                        <>Verified Credential <CheckCircle size={15} color="var(--status-success)" /></>
+                        <>Verified Credential <CheckCircle size={15} color="var(--accent-emerald)" /></>
                       )}
                     </button>
                   </div>
@@ -222,7 +224,7 @@ const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
             style={{
               position: 'fixed',
               inset: 0,
-              backgroundColor: 'rgba(0, 0, 0, 0.85)',
+              backgroundColor: 'rgba(0, 0, 0, 0.88)',
               backdropFilter: 'blur(10px)',
               zIndex: 2500,
               display: 'flex',
@@ -262,7 +264,7 @@ const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
                 </button>
               </div>
 
-              <div style={{ flex: 1, overflowY: 'auto', textAlign: 'center', backgroundColor: '#0f172a', borderRadius: 'var(--radius-md)', padding: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ flex: 1, overflowY: 'auto', textAlign: 'center', backgroundColor: '#141816', borderRadius: 'var(--radius-md)', padding: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <img
                   src={previewCert.imageUrl}
                   alt={previewCert.name}
@@ -298,4 +300,5 @@ const Certifications = ({ profile, onProfileUpdated, isAdmin }) => {
 };
 
 export default Certifications;
+
 

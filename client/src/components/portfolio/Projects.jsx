@@ -54,12 +54,12 @@ const Projects = ({ isAdmin }) => {
       <div className="container">
         
         {/* Header Bar */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', gap: '1rem' }}>
           <div>
             <span className="badge-pill" style={{ marginBottom: '0.75rem' }}>
               <FolderGit2 size={14} /> Production Showcase
             </span>
-            <h2 style={{ fontSize: '2.5rem', fontWeight: '800', letterSpacing: '-0.025em' }}>
+            <h2 style={{ fontSize: '2.5rem', fontWeight: '800', letterSpacing: '-0.025em', color: 'var(--text-primary)' }}>
               Featured Projects
             </h2>
           </div>
@@ -69,7 +69,7 @@ const Projects = ({ isAdmin }) => {
             <button
               onClick={() => setIsAddModalOpen(true)}
               className="btn-primary"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
             >
               <Plus size={18} /> Upload Project
             </button>
@@ -116,9 +116,9 @@ const Projects = ({ isAdmin }) => {
                     borderRadius: 'var(--radius-full)',
                     fontSize: '0.85rem',
                     fontWeight: '600',
-                    border: isActive ? '1px solid var(--accent-primary)' : '1px solid var(--border-color)',
-                    backgroundColor: isActive ? 'var(--accent-primary)' : 'var(--bg-card)',
-                    color: isActive ? '#ffffff' : 'var(--text-secondary)',
+                    border: isActive ? '1px solid var(--accent-emerald)' : '1px solid var(--border-color)',
+                    backgroundColor: isActive ? 'var(--accent-emerald)' : 'var(--bg-card)',
+                    color: isActive ? '#0D0F0E' : 'var(--text-secondary)',
                     transition: 'all var(--transition-fast)'
                   }}
                 >
@@ -187,3 +187,4 @@ const Projects = ({ isAdmin }) => {
 };
 
 export default Projects;
+

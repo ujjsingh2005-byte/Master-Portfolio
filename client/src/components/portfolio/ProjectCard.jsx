@@ -32,7 +32,9 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
         overflow: 'hidden',
         height: '100%',
         position: 'relative',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        borderTop: isHovered ? '2px solid var(--accent-emerald)' : '1px solid var(--border-color)',
+        transition: 'all var(--transition-normal)'
       }}
     >
       {/* Project Cover Image */}
@@ -53,14 +55,14 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
             position: 'absolute',
             top: '12px',
             right: '12px',
-            padding: '0.3rem 0.8rem',
-            backgroundColor: 'rgba(11, 16, 32, 0.85)',
-            backdropFilter: 'blur(10px)',
+            padding: '0.3rem 0.85rem',
+            backgroundColor: 'rgba(13, 15, 14, 0.88)',
+            backdropFilter: 'blur(8px)',
             borderRadius: 'var(--radius-full)',
             fontSize: '0.75rem',
             fontWeight: '600',
-            color: 'var(--accent-secondary)',
-            border: '1px solid var(--border-color)'
+            color: 'var(--accent-emerald)',
+            border: '1px solid rgba(53, 208, 127, 0.3)'
           }}
         >
           {category}
@@ -69,7 +71,7 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
 
       {/* Card Body */}
       <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
-        <h3 style={{ fontSize: '1.3rem', fontWeight: '700', marginBottom: '0.6rem', letterSpacing: '-0.01em' }}>
+        <h3 style={{ fontSize: '1.3rem', fontWeight: '700', marginBottom: '0.6rem', letterSpacing: '-0.01em', color: 'var(--text-primary)' }}>
           {title}
         </h3>
 
@@ -82,7 +84,7 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
           <div style={{ marginBottom: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
             {features.slice(0, 2).map((feat, idx) => (
               <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.45rem', fontSize: '0.825rem', color: 'var(--text-secondary)' }}>
-                <CheckCircle2 size={15} color="var(--status-success)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                <CheckCircle2 size={15} color="var(--accent-emerald)" style={{ flexShrink: 0, marginTop: '2px' }} />
                 <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' }}>
                   {feat}
                 </span>
@@ -100,11 +102,11 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
                 fontSize: '0.75rem',
                 fontFamily: 'var(--font-mono)',
                 fontWeight: '500',
-                padding: '0.2rem 0.55rem',
-                backgroundColor: 'rgba(99, 102, 241, 0.08)',
-                color: 'var(--accent-primary)',
+                padding: '0.2rem 0.6rem',
+                backgroundColor: 'rgba(53, 208, 127, 0.08)',
+                color: 'var(--accent-emerald)',
                 borderRadius: 'var(--radius-sm)',
-                border: '1px solid rgba(99, 102, 241, 0.18)'
+                border: '1px solid rgba(53, 208, 127, 0.2)'
               }}
             >
               {tech}
@@ -114,7 +116,7 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
 
         {/* Card Footer Launch Links */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '1rem', borderTop: '1px solid var(--border-color)', marginTop: 'auto' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
             {githubUrl && (
               <a
                 href={githubUrl}
@@ -132,6 +134,8 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
                   color: 'var(--text-secondary)',
                   transition: 'color var(--transition-fast)'
                 }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-secondary)')}
               >
                 <Github size={17} /> Source
               </a>
@@ -150,9 +154,11 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
                   gap: '0.35rem',
                   fontSize: '0.85rem',
                   fontWeight: '600',
-                  color: 'var(--accent-secondary)',
+                  color: 'var(--accent-emerald)',
                   transition: 'color var(--transition-fast)'
                 }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--accent-emerald-light)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--accent-emerald)')}
               >
                 <ExternalLink size={17} /> Live Demo
               </a>
@@ -171,7 +177,10 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
                   display: 'inline-flex',
                   alignItems: 'center',
                   opacity: isDeleting ? 0.5 : 0.85,
-                  transition: 'opacity var(--transition-fast)'
+                  transition: 'opacity var(--transition-fast)',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer'
                 }}
               >
                 {isDeleting ? <Loader2 size={15} style={{ animation: 'spin 1s linear infinite' }} /> : <Trash2 size={16} />}
@@ -187,7 +196,10 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
               gap: '0.3rem',
               fontSize: '0.85rem',
               fontWeight: '600',
-              color: 'var(--accent-primary)'
+              color: 'var(--accent-champagne)',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer'
             }}
           >
             Details <Info size={15} />
@@ -200,3 +212,4 @@ const ProjectCard = ({ project, onSelect, onDelete }) => {
 };
 
 export default ProjectCard;
+

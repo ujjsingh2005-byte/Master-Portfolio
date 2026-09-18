@@ -53,11 +53,9 @@ const Navbar = ({ onOpenSettings, isAdmin }) => {
           right: 0,
           zIndex: 900,
           backgroundColor: isScrolled ? 'var(--bg-glass)' : 'transparent',
-          backdropFilter: isScrolled ? 'blur(16px)' : 'none',
-          WebkitBackdropFilter: isScrolled ? 'blur(16px)' : 'none',
           borderBottom: isScrolled ? '1px solid var(--border-color)' : '1px solid transparent',
           transition: 'all var(--transition-normal)',
-          padding: '0.85rem 0'
+          padding: '0.9rem 0'
         }}
       >
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -67,14 +65,16 @@ const Navbar = ({ onOpenSettings, isAdmin }) => {
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.4rem',
-              fontSize: '1.25rem',
+              gap: '0.45rem',
+              fontSize: '1.2rem',
               fontWeight: '800',
-              letterSpacing: '-0.03em'
+              letterSpacing: '-0.02em',
+              color: 'var(--text-primary)'
             }}
           >
-            <span className="text-gradient">Ujjwal Singh</span>
-            <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>.dev</span>
+            <span>Ujjwal Singh</span>
+            <span style={{ color: 'var(--accent-emerald)', fontFamily: 'var(--font-mono)', fontSize: '0.9rem', fontWeight: '700' }}>.dev</span>
+            <span className="status-dot" style={{ marginLeft: '0.15rem' }} />
           </a>
 
           {/* Desktop Navigation */}
@@ -87,9 +87,9 @@ const Navbar = ({ onOpenSettings, isAdmin }) => {
                   key={item.label}
                   href={item.href}
                   style={{
-                    fontSize: '0.9rem',
+                    fontSize: '0.875rem',
                     fontWeight: isActive ? '600' : '500',
-                    color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
+                    color: isActive ? 'var(--accent-emerald)' : 'var(--text-secondary)',
                     transition: 'color var(--transition-fast)',
                     position: 'relative',
                     padding: '0.2rem 0'
@@ -104,7 +104,7 @@ const Navbar = ({ onOpenSettings, isAdmin }) => {
                         left: 0,
                         right: 0,
                         height: '2px',
-                        background: 'var(--accent-gradient)',
+                        backgroundColor: 'var(--accent-emerald)',
                         borderRadius: 'var(--radius-full)'
                       }}
                     />
@@ -131,7 +131,7 @@ const Navbar = ({ onOpenSettings, isAdmin }) => {
                 gap: '0.35rem'
               }}
             >
-              <FileText size={15} color="var(--accent-primary)" />
+              <FileText size={15} color="var(--accent-emerald)" />
               <span className="desktop-only-text">Resume</span>
             </a>
 
@@ -147,9 +147,9 @@ const Navbar = ({ onOpenSettings, isAdmin }) => {
                   gap: '0.4rem',
                   padding: '0.45rem 0.85rem',
                   borderRadius: 'var(--radius-md)',
-                  backgroundColor: 'rgba(99, 102, 241, 0.12)',
-                  border: '1px solid var(--border-active)',
-                  color: 'var(--accent-primary)',
+                  backgroundColor: 'rgba(53, 208, 127, 0.12)',
+                  border: '1px solid rgba(53, 208, 127, 0.3)',
+                  color: 'var(--accent-emerald)',
                   fontWeight: '600',
                   fontSize: '0.85rem',
                   cursor: 'pointer',
@@ -211,3 +211,4 @@ const Navbar = ({ onOpenSettings, isAdmin }) => {
 };
 
 export default Navbar;
+

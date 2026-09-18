@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SectionHeader from '../common/SectionHeader';
-import { Calendar, MapPin, CheckCircle, Plus, Trash2, Loader2, FileText, X, Eye, Briefcase, Sparkles } from 'lucide-react';
+import { Calendar, MapPin, CheckCircle, Plus, Trash2, Loader2, FileText, X, Eye, Briefcase } from 'lucide-react';
 import AddExperienceModal from './AddExperienceModal';
 import { deleteExperience } from '../../services/api';
 
@@ -77,12 +77,12 @@ const Experience = ({ profile, onProfileUpdated, isAdmin }) => {
       <div className="container">
         
         {/* Header */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', gap: '1rem' }}>
           <div>
             <span className="badge-pill" style={{ marginBottom: '0.75rem' }}>
               <Briefcase size={14} /> Career Milestones
             </span>
-            <h2 style={{ fontSize: '2.5rem', fontWeight: '800', letterSpacing: '-0.025em' }}>
+            <h2 style={{ fontSize: '2.5rem', fontWeight: '800', letterSpacing: '-0.025em', color: 'var(--text-primary)' }}>
               Professional Experience
             </h2>
           </div>
@@ -91,7 +91,7 @@ const Experience = ({ profile, onProfileUpdated, isAdmin }) => {
             <button
               onClick={() => setIsAddModalOpen(true)}
               className="btn-primary"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
             >
               <Plus size={18} /> Add Experience
             </button>
@@ -118,17 +118,18 @@ const Experience = ({ profile, onProfileUpdated, isAdmin }) => {
                   padding: '2rem',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '1.25rem'
+                  gap: '1.25rem',
+                  borderTop: '2px solid var(--accent-emerald)'
                 }}
               >
                 
                 {/* Header Row */}
                 <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start', justifyContent: 'space-between', gap: '1rem' }}>
                   <div>
-                    <h3 style={{ fontSize: '1.4rem', fontWeight: '800', letterSpacing: '-0.01em' }}>
+                    <h3 style={{ fontSize: '1.35rem', fontWeight: '800', letterSpacing: '-0.01em', color: 'var(--text-primary)' }}>
                       {exp.role}
                     </h3>
-                    <h4 style={{ fontSize: '1.05rem', fontWeight: '600', color: 'var(--accent-primary)', marginTop: '0.2rem' }}>
+                    <h4 style={{ fontSize: '1.05rem', fontWeight: '600', color: 'var(--accent-emerald)', marginTop: '0.2rem' }}>
                       {exp.company}
                     </h4>
                   </div>
@@ -155,7 +156,10 @@ const Experience = ({ profile, onProfileUpdated, isAdmin }) => {
                             display: 'inline-flex',
                             alignItems: 'center',
                             opacity: isDeletingThis ? 0.4 : 0.75,
-                            transition: 'opacity var(--transition-fast)'
+                            transition: 'opacity var(--transition-fast)',
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer'
                           }}
                         >
                           {isDeletingThis ? <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} /> : <Trash2 size={17} />}
@@ -176,7 +180,7 @@ const Experience = ({ profile, onProfileUpdated, isAdmin }) => {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
                     {exp.responsibilities.map((resp, rIdx) => (
                       <div key={rIdx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem', fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-                        <CheckCircle size={17} color="var(--accent-primary)" style={{ flexShrink: 0, marginTop: '3px' }} />
+                        <CheckCircle size={17} color="var(--accent-emerald)" style={{ flexShrink: 0, marginTop: '3px' }} />
                         <span>{resp}</span>
                       </div>
                     ))}
@@ -216,7 +220,7 @@ const Experience = ({ profile, onProfileUpdated, isAdmin }) => {
                       style={{ padding: '0.4rem 0.85rem', fontSize: '0.825rem' }}
                       title="Click to view official completion letter or certificate"
                     >
-                      <FileText size={15} color="var(--accent-primary)" /> View Completion Document
+                      <FileText size={15} color="var(--accent-emerald)" /> View Completion Document
                     </button>
                   )}
 
@@ -234,7 +238,7 @@ const Experience = ({ profile, onProfileUpdated, isAdmin }) => {
             style={{
               position: 'fixed',
               inset: 0,
-              backgroundColor: 'rgba(0, 0, 0, 0.85)',
+              backgroundColor: 'rgba(0, 0, 0, 0.88)',
               backdropFilter: 'blur(12px)',
               zIndex: 2500,
               display: 'flex',
@@ -260,20 +264,20 @@ const Experience = ({ profile, onProfileUpdated, isAdmin }) => {
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', paddingBottom: '0.75rem', borderBottom: '1px solid var(--border-color)' }}>
                 <div>
-                  <h3 style={{ fontSize: '1.2rem', fontWeight: '800' }}>{previewDoc.title}</h3>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: '800', color: 'var(--text-primary)' }}>{previewDoc.title}</h3>
                   <span style={{ fontSize: '0.825rem', color: 'var(--text-muted)' }}>Official Completion Document • {previewDoc.duration}</span>
                 </div>
 
                 <button
                   onClick={() => setPreviewDoc(null)}
-                  style={{ color: 'var(--text-secondary)' }}
+                  style={{ color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer' }}
                   aria-label="Close modal"
                 >
                   <X size={22} />
                 </button>
               </div>
 
-              <div style={{ flex: 1, overflowY: 'auto', textAlign: 'center', backgroundColor: '#0f172a', borderRadius: 'var(--radius-md)', padding: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ flex: 1, overflowY: 'auto', textAlign: 'center', backgroundColor: '#141816', borderRadius: 'var(--radius-md)', padding: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <img
                   src={previewDoc.imageUrl}
                   alt={previewDoc.title}
@@ -309,3 +313,4 @@ const Experience = ({ profile, onProfileUpdated, isAdmin }) => {
 };
 
 export default Experience;
+

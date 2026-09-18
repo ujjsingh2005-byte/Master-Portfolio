@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SectionHeader from '../common/SectionHeader';
-import { GraduationCap, Calendar, Award, Plus, Trash2, Loader2, Sparkles } from 'lucide-react';
+import { GraduationCap, Calendar, Award, Plus, Trash2, Loader2 } from 'lucide-react';
 import AddEducationModal from './AddEducationModal';
 import { deleteEducation } from '../../services/api';
 
@@ -62,12 +62,12 @@ const Education = ({ profile, onProfileUpdated, isAdmin }) => {
       <div className="container">
         
         {/* Header */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', gap: '1rem' }}>
           <div>
             <span className="badge-pill" style={{ marginBottom: '0.75rem' }}>
               <GraduationCap size={14} /> Academic Qualifications
             </span>
-            <h2 style={{ fontSize: '2.5rem', fontWeight: '800', letterSpacing: '-0.025em' }}>
+            <h2 style={{ fontSize: '2.5rem', fontWeight: '800', letterSpacing: '-0.025em', color: 'var(--text-primary)' }}>
               Education & Academics
             </h2>
           </div>
@@ -76,7 +76,7 @@ const Education = ({ profile, onProfileUpdated, isAdmin }) => {
             <button
               onClick={() => setIsAddModalOpen(true)}
               className="btn-primary"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
             >
               <Plus size={18} /> Add Education
             </button>
@@ -120,11 +120,11 @@ const Education = ({ profile, onProfileUpdated, isAdmin }) => {
                       height: '34px',
                       borderRadius: '50%',
                       backgroundColor: 'var(--bg-primary)',
-                      border: '2px solid var(--accent-primary)',
+                      border: '2px solid var(--accent-emerald)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: 'var(--accent-primary)',
+                      color: 'var(--accent-emerald)',
                       boxShadow: 'var(--shadow-sm)',
                       zIndex: 2
                     }}
@@ -133,9 +133,9 @@ const Education = ({ profile, onProfileUpdated, isAdmin }) => {
                   </div>
 
                   {/* Card Container */}
-                  <div className="glass-card" style={{ padding: '1.75rem' }}>
+                  <div className="glass-card" style={{ padding: '1.75rem', borderTop: '2px solid var(--accent-emerald)' }}>
                     <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem', marginBottom: '0.5rem' }}>
-                      <h3 style={{ fontSize: '1.3rem', fontWeight: '800', letterSpacing: '-0.01em' }}>
+                      <h3 style={{ fontSize: '1.3rem', fontWeight: '800', letterSpacing: '-0.01em', color: 'var(--text-primary)' }}>
                         {edu.degree} {edu.fieldOfStudy ? `— ${edu.fieldOfStudy}` : ''}
                       </h3>
                       
@@ -157,7 +157,10 @@ const Education = ({ profile, onProfileUpdated, isAdmin }) => {
                               display: 'inline-flex',
                               alignItems: 'center',
                               opacity: isDeletingThis ? 0.4 : 0.75,
-                              transition: 'opacity var(--transition-fast)'
+                              transition: 'opacity var(--transition-fast)',
+                              background: 'none',
+                              border: 'none',
+                              cursor: 'pointer'
                             }}
                           >
                             {isDeletingThis ? <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} /> : <Trash2 size={17} />}
@@ -166,7 +169,7 @@ const Education = ({ profile, onProfileUpdated, isAdmin }) => {
                       </div>
                     </div>
 
-                    <h4 style={{ fontSize: '1.05rem', fontWeight: '600', color: 'var(--accent-primary)', marginBottom: '1.25rem' }}>
+                    <h4 style={{ fontSize: '1.05rem', fontWeight: '600', color: 'var(--accent-champagne)', marginBottom: '1.25rem' }}>
                       {edu.institution}
                     </h4>
 
@@ -174,7 +177,7 @@ const Education = ({ profile, onProfileUpdated, isAdmin }) => {
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
                         {edu.achievements.map((ach, aIdx) => (
                           <div key={aIdx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.55rem', fontSize: '0.925rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-                            <Award size={16} color="var(--accent-secondary)" style={{ flexShrink: 0, marginTop: '3px' }} />
+                            <Award size={16} color="var(--accent-emerald)" style={{ flexShrink: 0, marginTop: '3px' }} />
                             <span>{ach}</span>
                           </div>
                         ))}
@@ -202,3 +205,4 @@ const Education = ({ profile, onProfileUpdated, isAdmin }) => {
 };
 
 export default Education;
+
